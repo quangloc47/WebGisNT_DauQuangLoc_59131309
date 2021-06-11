@@ -559,10 +559,6 @@ function timkiem() {
     }
     xmlhttp.open("GET", "xltimkiem.php?tieuchi=" + txtTieuChi + "&khuvuc=" + txtKhuVuc, true);
     xmlhttp.send();
-
-    $($("#submit")).trigger('click');
-    // for (var i=0; i<12; i++);
-    // $('#submit')[i].trigger('click');
 }
 // End Tìm kiếm nhà trọ cơ bản
 

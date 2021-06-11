@@ -87,13 +87,13 @@ if (empty($tieuchi) && ($khuvuc)) {
                             INNER JOIN public.xaphuong ON public.nhatro.maphuongxa = public.xaphuong.mapx
                         WHERE tentn ILIKE '%$tieuchi%'
                             OR tenlnt ILIKE '%$tieuchi%'
-                            OR dientich ILIKE '%$tieuchi%'
-                            OR songuoio ILIKE '%$tieuchi%'
+                            OR dientich = '$tieuchi'
+                            OR songuoio = '$tieuchi'
                             OR nhavesinh ILIKE '%$tieuchi%'
-                            OR giaphong ILIKE '%$tieuchi%'
-                            OR tiencoc ILIKE '%$tieuchi%'
-                            OR tiendien ILIKE '%$tieuchi%'
-                            OR tiennuoc ILIKE '%$tieuchi%'
+                            OR giaphong = '$tieuchi'
+                            OR tiencoc = '$tieuchi'
+                            OR tiendien = '$tieuchi'
+                            OR tiennuoc = '$tieuchi'
                             OR giogiac ILIKE '%$tieuchi%'";
 
     $query = pg_query($conn, $sql);
@@ -145,13 +145,13 @@ if (empty($tieuchi) && ($khuvuc)) {
                             INNER JOIN public.xaphuong ON public.nhatro.maphuongxa = public.xaphuong.mapx
                         WHERE (tentn ILIKE '%$tieuchi%'
                             OR tenlnt ILIKE '%$tieuchi%'
-                            OR dientich ILIKE '%$tieuchi%'
-                            OR songuoio ILIKE '%$tieuchi%'
+                            OR dientich = '$tieuchi'
+                            OR songuoio = '$tieuchi'
                             OR nhavesinh ILIKE '%$tieuchi%'
-                            OR giaphong ILIKE '%$tieuchi%'
-                            OR tiencoc ILIKE '%$tieuchi%'
-                            OR tiendien ILIKE '%$tieuchi%'
-                            OR tiennuoc ILIKE '%$tieuchi%'
+                            OR giaphong = '$tieuchi'
+                            OR tiencoc = '$tieuchi'
+                            OR tiendien = '$tieuchi'
+                            OR tiennuoc = '$tieuchi'
                             OR giogiac ILIKE '%$tieuchi%')
                             AND (tenduong ILIKE '%$khuvuc%' OR tenpx ILIKE '%$khuvuc%')";
 

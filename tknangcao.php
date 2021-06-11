@@ -323,7 +323,7 @@
                             </form>
                         </div>
                         </br>
-                        <div class="col-md-12" id="kq_pan">
+                        <div class="col-md-12" id="kq_tknangcao">
                             <!-- <div class="timkiemnc">
                                 <div class="scrollbar2" id="style-2">
                                     <div class="force-overflow2" id="kq_tknangcao">
