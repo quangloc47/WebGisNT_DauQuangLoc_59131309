@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm nâng cao!</title>
+</head>
+
+<body id="tknangcao">
+    <?php # Script 3.4 - index.php
+    $page_title = 'WebGis thông tin nhà trọ TPNT';
+    include('ses2.php');
+    include('ketnoi.php');
+    global $tenltk;
+    if ($tenltk == 'User') {
+        include('includes/header_us.php');
+    } else if ($tenltk == 'Admin') {
+        include('includes/header_ad.php');
+    } else {
+        include('includes/header.php');
+    }
+    ?>
+
+    <h1 style="color: green; word-spacing: 2.76px; letter-spacing: 5px; font-weight: bold;">WEBGIS TÌM KIẾM THÔNG TIN NHÀ TRỌ THÀNH PHỐ NHA TRANG</h1></br>
+
+    <div id="fullscreen" class="fullscreen">
+        <div id="map" class="maptk"></div>
+        <div class="legend">
+            <div class="row rowLegend">
+                <div class="col-md-12 ChuThich">
+                    <label for="chkChuThich" class="chkChuThich">LỚP DỮ LIỆU</label>
+                </div>
+                <div class="col-md-12">
+                    <input type="checkbox" id="chkThanhPho" checked class="check" /><label for="chkThanhPho">TP.Nha
+                        Trang</label>
+                    <br>
+                    <img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=NhaTroNT:thanhpho" />
+                </div>
+
+                <div class="col-md-12">
+                    <input type="checkbox" id="chkXaPhuong" checked class="check" /><label for="chkXaPhuong">Xã
+                        Phường</label></br>
+                    <img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=NhaTroNT:xaphuong" />
+                </div>
+
+                <div class="col-md-12">
+                    <input type="checkbox" id="chkDuong" checked class="check" /><label for="chkDuong">Đường</label>
+                    <img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=NhaTroNT:duong" />
+                </div>
+
+                <div class="col-md-12">
+                    <input type="checkbox" id="chkBus" checked class="check" /><label for="chkBus">Trạm Bus</label>
+                    <br>
+                    <img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=NhaTroNT:trambus" />
+                </div>
+
+                <div class="col-md-12">
+                    <input type="checkbox" id="chkTienIch" checked class="check" /><label for="chkTienIch">Tiện
+                        ích</label>
+                    <img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=NhaTroNT:tienich" />
+                </div>
+
+                <div class="col-md-12">
+                    <input type="checkbox" id="chkTruong" checked class="check" /><label for="chkTruong">Trường</label></br>
+                    <img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=NhaTroNT:truong" />
+                </div>
+
+                <div class="col-md-12 colLegend">
+                    <input type="checkbox" id="chkNhaTro" checked class="check" /><label for="chkNhaTro">Nhà trọ</label>
+                    <img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=NhaTroNT:nhatro" />
+                </div>
+
+                <div class="col-md-12 colLegend">
+                    <input id="track" type="checkbox" />
+                    <label for="chkViTri">Vị trí của tôi</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="popup" class="ol-popup">
+            <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+
+            <div id="popup-content"></div>
+        </div>
+    </div>
+
+    <input type="hidden" id="info" />
+
+    <div class="row">
+        <!-- Tìm đường -->
+        <div class="col-md-6">
+            <div id="Route">
+                <div class="timduong" style="font-size: 14pt; padding: 5px; padding-left: 0; color: orange">
+                    <input id="chkRoadFind" type="checkbox" />
+                    <label for="chkTimDuong"><b>TÌM ĐƯỜNG</b> <i class="fas fa-road"></i></label>
+                </div>
+
+                <div class="form-group">
+                    <label class="medium mb-1"><b>Tọa độ điểm đi:</b></label>
+                    <input class="form-control py-3" id="txtPoint1" name="txtPoint1" type="text" />
+                </div>
+                <div class="form-group">
+                    <label class="medium mb-1"><b>Tọa độ điểm đến:</b></label>
+                    <input class="form-control py-3" id="txtPoint2" name="txtPoint2" type="text" />
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <button id="btnSolve" class="btn btn-primary btn-block">Tìm đường</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <button id="btnReset" class="btn btn-primary btn-block">Xóa đường</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Tìm đường -->
+
+        <div class="col-md-6">
+            <!-- Đo lường -->
+            <div class="doluong" style="font-size: 14pt; padding: 5px; padding-left: 0; color: orange">
+                <label for="chkTimDuong"><i class="fas fa-ruler-combined"></i> <b>ĐO LƯỜNG</b></label>
+            </div>
+            <div class="form-group">
+                <form id="measure">
+                    <label class="medium mb-1"><b>Loại đo lường: &nbsp;</b></label>
+                    <select class="form-control" id="measuretype">
+                        <option value="select">Chọn tùy chọn Đo lường</option>
+                        <option value="length">Chiều dài (LineString)</option>
+                        <option value="area">Khu vực (Polygon)</option>
+                        <option value="clear">Xóa Đo lường</option>
+                    </select>
+                </form>
+            </div>
+            <!-- End Đo lường -->
+
+            <!-- Lấy thông tin khi Click lên bản đồ -->
+            <div class="layttin" style="font-size: 14pt; padding: 5px; padding-left: 0; color: orange; margin-top: 28px">
+                <label for="chkTimDuong"><i class="fas fa-search-location"></i> <b>KÍCH HOẠT LẤY THÔNG TIN</b></label>
+            </div>
+            <form id="getinfo">
+                <label class="medium mb-1"><b>Lựa chọn:&nbsp;</b></label>
+                <select class="form-control" id="getinfotype">
+                    <option value="select">Chọn tùy chọn</option>
+                    <option value="activate_getinfo">Kích hoạt GetFeatureinfo</option>
+                    <option value="deactivate_getinfo">Hủy kích hoạt GetFeatureinfo</option>
+                </select>
+            </form>
+            <!-- End Lấy thông tin khi Click lên bản đồ -->
+        </div>
+    </div>
+
+    <div class="wrapMainProductTabs">
+        <div class="titleMainProductTabs">TÌM KIẾM</div>
+        <div class="wrapProductTabs">
+            <div class="productTabs">
+                <div class="scrollAbleTabs">
+                    <button class="tabsLinks tabs active" onclick="openTab(event, 'tab1')">TÌM KIẾM THUỘC TÍNH</button>
+
+                    <button class="tabsLinks tabs" onclick="openTab(event, 'tab2')">TÌM KIẾM KHÔNG GIAN</button>
+
+                    <button class="tabsLinks tabs" onclick="openTab(event, 'tab3')">TÌM KIẾM KẾT HỢP</button>
+                </div>
+
+                <div id="tab1" class="contentProductTabs">
+                    <div class="subProductTabs">
+                        <div class="col-md-12">
+                            <form action="" method="post">
+                                <p style="font-size: 13pt; padding: 0; text-align: justify">Sử dụng các toán tử <font color="red">= (bằng), > (lớn hơn), < (bé hơn),>= (lớn hơn hoặc bằng), <= (bé hơn hoặc bằng)</font>
+                                                để thực hiện tìm kiếm với một số thuộc tính, các thuộc tính không muốn xét có thể bỏ trống! <b>Lưu ý:</b> Các toán tử với thuộc tính muốn tìm ngăn cách nhau bởi dấu cách!</p>
+                                <div class="form-group">
+                                    <label class="medium mb-1" for=""><b>Tên đường:</b></label>
+                                    <input class="form-control py-3" placeholder="Ví dụ: Nguyễn Đình Chiểu" id="txtTenDuong" name="txtTenDuong" type="text" />
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="medium mb-1" for=""><b>Diện tích sử dụng (m2):</b></label>
+                                            <input class="form-control py-3" placeholder="Ví dụ: = 16" id="txtDienTich" name="txtDienTich" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="medium mb-1" for=""><b>Loại nhà trọ:</b></label>
+                                            <select class="form-control" id="txtLPhong" name="txtLPhong">
+                                                <option value=""> -- Chọn hoặc bỏ qua -- </option>
+                                                <option value="Sinh viên">Sinh viên</option>
+                                                <option value="Nguyên căn">Nguyên căn</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="medium mb-1" for=""><b>Nhà vệ sinh:</b></label>
+                                            <select class="form-control" id="txtNVS" name="txtNVS">
+                                                <option value=""> -- Chọn hoặc bỏ qua -- </option>
+                                                <option value="Riêng">Riêng</option>
+                                                <option value="Chung">Chung</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="medium mb-1" for=""><b>Giá phòng/tháng:</b></label>
+                                            <input class="form-control py-3" placeholder="Ví dụ: <= 1000000" id="txtGPhong" name="txtGPhong" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="medium mb-1" for=""><b>Số lượng người ở:</b></label>
+                                            <input class="form-control py-3" placeholder="Mời nhập một số... hoặc < 4" id="txtSLNguoi" name="txtSLNguoi" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="medium mb-1" for=""><b>Giá điện/1kWh:</b></label>
+                                            <input class="form-control py-3" placeholder="Ví dụ: < 5000" id="txtGDien" name="txtGDien" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="medium mb-1" for=""><b>Giá nước/m3:</b></label>
+                                            <input class="form-control py-3" placeholder="Ví dụ: >= 15000" id="txtGNuoc" name="txtGNuoc" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="medium mb-1" for=""><b>Giờ đóng cửa:</b></label>
+                                            <input class="form-control py-3" placeholder="Ví dụ: 23h hoặc > 23h" id="txtGioGiac" name="txtGioGiac" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <button type="button" name="submit" onclick="tknangcao();" class="btn btn-primary btn-block">Tìm kiếm</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <button type="reset" name="submit" class="btn btn-primary btn-block">Làm mới</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        </br>
+                        <div class="col-md-12" id="kq_tknangcao">
+                            <!-- <div class="timkiemnc">
+                                <div class="scrollbar2" id="style-2">
+                                    <div class="force-overflow2" id="kq_tknangcao">
+                                        Kết quả tìm kiếm
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab2" class="contentProductTabs">
+                    <div class="subProductTabs">
+                        <div class="col-md-12">
+                            <form action="" method="post" style="margin-top: 20px;">
+                                <legend>Đi tới Phường/Xã:</legend>
+
+                                <table class="tables table-borderless">
+                                    <tr>
+                                        <td class="tkgian" style="width: 7%">
+                                            <label class="medium mb-1 motel" for="inputXP"><b>Phường / Xã <i class="fas fa-jedi icon_motel"></i> :
+                                                </b></label>
+                                        </td>
+                                        <td class="tkgian" style="width: 39%">
+                                            <select class="form-control" name="xaphuong" id='xaphuong' style="width: 576px">
+                                                <option value=""></option>
+                                                <?php
+                                                $xaphuong =  pg_query($conn, "SELECT * FROM public.xaphuong");
+                                                while ($d = pg_fetch_array($xaphuong)) {
+                                                    echo "<option value='$d[mapx]'";
+                                                    if ((isset($_POST['xaphuong'])) && $_POST['xaphuong'] == $d['mapx'])
+                                                        echo "selected='1'";
+                                                    echo "> $d[tenpx] </option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <table class="tables table-borderless">
+                                    <tr>
+                                        <td class="tkgian" style="width: 2%">
+                                            <input id="chkRoadFind" type="checkbox" />
+                                        </td>
+                                        <td class="tkgian" style="width: 8%">
+                                            <label class="medium mb-1" for=""><b>Đối tượng:</b></label>
+                                        </td>
+                                        <td class="tkgian" style="width: 39%">
+                                            <select class="form-control" id="txtKG" name="txtKG" style="width: 436px">
+                                                <option value="Riêng">Bệnh viện, trung tâm y tế</option>
+                                                <option value="Chung">Nhà trọ</option>
+                                                <option value="Chung">Trường học</option>
+                                            </select>
+                                        </td>
+                                        <td class="tkgian" style="width: 7%">
+                                            <label class="medium mb-1" for=""><b>Bán kính:</b></label>
+                                        </td>
+                                        <td class="tkgian">
+                                            <select class="form-control" id="txtBK" name="txtBK" style="width: 94px">
+                                                <option value="Riêng">500 m</option>
+                                                <option value="Chung">1 km</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <button type="button" style="width: 152px" onclick="tkgian();" class="btn btn-primary btn-block">Tìm kiếm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        </br>
+                        <div class="col-md-12" id="kq_tkgian">
+                            <!-- <div class="timkiemnc">
+                                <div class="scrollbar2" id="style-2">
+                                    <div class="force-overflow2" id="kq_tknangcao">
+                                        Kết quả tìm kiếm
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab3" class="contentProductTabs">
+                    <div class="subProductTabs">
+                        <div class="col-md-12">
+                            <div class="tab-content">
+                                <div id="form">
+                                    <label for="layer" class="medium mb-1"><b>Lựa chọn Layer:</b></label>
+                                    <select class="form-control" id="layer" name="layer">
+                                        <option value="">Chọn Layer</option>
+                                    </select>
+                                    <br>
+                                    <label for="attributes" class="medium mb-1"><b>Lựa chọn thuộc tính:</b></label>
+                                    <select class="form-control" id="attributes" name="attributes">
+                                        <option value="">Chọn thuộc tính</option>
+                                    </select>
+                                    <br>
+                                    <label for="operator" class="medium mb-1"><b>Lựa chọn toán tử:</b></label>
+                                    <select class="form-control" id="operator" name="operator">
+                                        <option value="">Chọn toán tử</option>
+                                    </select>
+                                    <br>
+
+                                    <label for="value" class="medium mb-1"><b>Nhập giá trị:</b></label>
+                                    <input type="text" class="form-control" id="value" name="value">
+                                    <br>
+                                    <button class="btn btn-success" onclick="query()">Chạy Truy Vấn</button>
+                                </div>
+                            </div>
+                            <div id="table_data"> </div>
+                            <div id="wms_layers_window" title="Available WMS Layers" style="display:none"></div>
+                            <table id="table_wms_layers" class="table-bordered">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <?php
+    include('includes/footer.html');
+    ?>
+    <!-- btn scroll top -->
+    <div class="btnScrollTop"><i class="fas fa-angle-up"></i></button></div>
+    <!-- end btn scroll top -->
+    <script src="scripts/tknangcao.js"></script>
+    <script src="scripts/scrolltop2.js"></script>
+</body>
+
+</html>
