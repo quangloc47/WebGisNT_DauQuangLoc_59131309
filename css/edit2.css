@@ -305,6 +305,18 @@ label {
   font-size: 28px;
   color: red;
 }
+
+.pan svg {
+  line-height: 30px;
+  width: 30px;
+  text-align: center;
+  font-size: 28px;
+  color: red;
+}
+
+.panzoom {
+  margin-top: 69px;
+}
 /* End Chức năng trang index */
 
 /* Tìm kiếm */

@@ -139,6 +139,7 @@
 	<div id="menu">
 		<div class="btn-group btn-group-md" id="btn">
 			<a href="index.php" class="btn btn-primary trangchu">TRANG CHỦ</a>
+			<a href="tknangcao.php" class="btn btn-primary tknangcao">TÌM KIẾM NÂNG CAO</a>
 			<a href="dangki.php" class="btn btn-primary dangki">ĐĂNG KÝ</a>
 			<a href="password.php" class="btn btn-primary password">ĐỔI MẬT KHẨU</a>
 			<a href="view_admin.php" class="btn btn-primary view_admin">HỒ SƠ</a>

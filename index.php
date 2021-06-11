@@ -134,6 +134,10 @@
     <div id="info"></div>
     <!-- End Chi tiết nhà trọ -->
 
+    <!-- Xóa tất cả -->
+    <button id="clear-png" style="margin-bottom: 10px;" onclick="clear_all()" class="btn btn-default"><i class="fas fa-trash-alt"></i> Xóa tất cả</button>
+    <!-- End Xóa tất cả -->
+
     <div class="row">
         <!-- Tìm đường -->
         <div class="col-md-6">
@@ -168,36 +172,98 @@
         <!-- End Tìm đường -->
 
         <div class="col-md-6">
-            <!-- Đo lường -->
-            <div class="doluong" style="font-size: 14pt; padding: 5px; padding-left: 0; color: orange">
-                <label for="chkTimDuong"><i class="fas fa-ruler-combined"></i> <b>ĐO LƯỜNG</b></label>
-            </div>
-            <div class="form-group">
-                <form id="measure">
-                    <label class="medium mb-1"><b>Loại đo lường: &nbsp;</b></label>
-                    <select class="form-control" id="measuretype">
-                        <option value="select">Chọn tùy chọn Đo lường</option>
-                        <option value="length">Chiều dài (LineString)</option>
-                        <option value="area">Khu vực (Polygon)</option>
-                        <option value="clear">Xóa Đo lường</option>
-                    </select>
-                </form>
-            </div>
-            <!-- End Đo lường -->
+            <div class="row">
+                <div class="col-md-9">
+                    <!-- Pan Zoom -->
+                    <div class="pan" style="font-size: 14pt; padding: 5px; padding-left: 0; color: orange">
+                        <label for="chkPan"><i class="fas fa-search-plus"></i> <b>ĐI TỚI PHƯỜNG XÃ</b></label>
+                    </div>
+                    <div class="form-group">
+                        <form action="" method="POST">
+                            <label class="medium mb-1"><b>Chọn phường xã: &nbsp;</b></label>
+                            <select class="form-control" name="pan" id='pan' style="width: 100%">
+                                <option value="">-- Chọn nơi đến --</option>
+                                <?php
+                                $xaphuong =  pg_query($conn, "SELECT * FROM public.xaphuong");
+                                while ($d = pg_fetch_array($xaphuong)) {
+                                    echo "<option value='$d[mapx]'";
+                                    if ((isset($_POST['xaphuong'])) && $_POST['xaphuong'] == $d['mapx'])
+                                        echo "selected='1'";
+                                    echo "> $d[tenpx] </option>";
+                                }
+                                ?>
+                            </select>
 
-            <!-- Lấy thông tin khi Click lên bản đồ -->
-            <div class="layttin" style="font-size: 14pt; padding: 5px; padding-left: 0; color: orange; margin-top: 28px">
-                <label for="chkTimDuong"><i class="fas fa-search-location"></i> <b>KÍCH HOẠT LẤY THÔNG TIN</b></label>
+                            <button style="display: none;" type="button" name="submit" onclick="pan();" class="btn btn-primary btn-block">Tìm kiếm</button>
+
+                            <script type="text/javascript">
+                                $("#pan").change(function() {
+                                    $(document).ready(function pan() {
+                                        var xaphuong = document.getElementById("pan").value;
+
+                                        if (window.XMLHttpRequest) {
+                                            // Code for IE7+, Firefox, Chrome, Opera, Safari 
+                                            xmlhttp = new XMLHttpRequest();
+                                        } else {
+                                            // Code for IE6, IE5
+                                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                                        }
+                                        xmlhttp.onreadystatechange = function() {
+                                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                                document.getElementById("kq_pan").innerHTML = xmlhttp.responseText;
+                                            }
+                                        }
+                                        xmlhttp.open("GET", "xl_panzoom.php?pan=" + xaphuong, true);
+                                        xmlhttp.send();
+                                    });
+                                });
+                            </script>
+                        </form>
+                    </div>
+                    <!-- End Pan Zoom -->
+                </div>
+
+                <div class="col-md-3" id="kq_pan">
+
+                </div>
             </div>
-            <form id="getinfo">
-                <label class="medium mb-1"><b>Lựa chọn:&nbsp;</b></label>
-                <select class="form-control" id="getinfotype">
-                    <option value="select">Chọn tùy chọn</option>
-                    <option value="activate_getinfo">Kích hoạt GetFeatureinfo</option>
-                    <option value="deactivate_getinfo">Hủy kích hoạt GetFeatureinfo</option>
-                </select>
-            </form>
-            <!-- End Lấy thông tin khi Click lên bản đồ -->
+
+            <div class="row" style="margin-top: 12px;">
+                <div class="col-md-6">
+                    <!-- Đo lường -->
+                    <div class="doluong" style="font-size: 14pt; padding: 5px; padding-left: 0; color: orange">
+                        <label for="chkTimDuong"><i class="fas fa-ruler-combined"></i> <b>ĐO LƯỜNG</b></label>
+                    </div>
+                    <div class="form-group">
+                        <form id="measure">
+                            <label class="medium mb-1"><b>Loại đo lường: &nbsp;</b></label>
+                            <select class="form-control" id="measuretype">
+                                <option value="select">-- Chọn tùy chọn Đo lường --</option>
+                                <option value="length">Chiều dài (LineString)</option>
+                                <option value="area">Khu vực (Polygon)</option>
+                                <option value="clear">Xóa Đo lường</option>
+                            </select>
+                        </form>
+                    </div>
+                    <!-- End Đo lường -->
+                </div>
+
+                <div class="col-md-6">
+                    <!-- Lấy thông tin khi Click lên bản đồ -->
+                    <div class="layttin" style="font-size: 14pt; padding: 5px; padding-left: 0; color: orange">
+                        <label for="chkTimDuong"><i class="fas fa-search-location"></i> <b>LẤY THÔNG TIN</b></label>
+                    </div>
+                    <form id="getinfo">
+                        <label class="medium mb-1"><b>Lựa chọn:&nbsp;</b></label>
+                        <select class="form-control" id="getinfotype">
+                            <option value="select">-- Chọn tùy chọn --</option>
+                            <option value="activate_getinfo">Kích hoạt GetFeatureinfo</option>
+                            <option value="deactivate_getinfo">Hủy kích hoạt GetFeatureinfo</option>
+                        </select>
+                    </form>
+                    <!-- End Lấy thông tin khi Click lên bản đồ -->
+                </div>
+            </div>
         </div>
     </div>
 

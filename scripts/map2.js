@@ -1,5 +1,8 @@
 var map;
 var geojson, layer_name, layerSwitcher, featureOverlay, highlightStyle;
+var draw, vector_measure, helpTooltip, measureTooltipElement;
+var overlay, closer;
+var vector_zoom2bbox, vector_addmarker;
 
 // Query panel using WMS & WFS service
 // wms_layers_window
@@ -51,7 +54,7 @@ function wms_layers() {
         var heads = table.getElementsByTagName('th');
         var col_no;
         for (var i = 0; i < heads.length; i++) {
-            // Take each cell
+            // Đi từng ô
             var head = heads[i];
             if (head.innerHTML == 'Name') {
                 col_no = i + 1;
@@ -241,7 +244,7 @@ function addRowHandlers() {
     var heads = table.getElementsByTagName('th');
     var col_no;
     for (var i = 0; i < heads.length; i++) {
-        // Take each cell
+        // Đi từng ô
         var head = heads[i];
         if (head.innerHTML == 'id') {
             col_no = i + 1;
@@ -315,12 +318,11 @@ function highlight(evt) {
     var heads = table.getElementsByTagName('th');
     var col_no;
     for (var i = 0; i < heads.length; i++) {
-        // Take each cell
+        // Đi từng ô
         var head = heads[i];
         if (head.innerHTML == 'id') {
             col_no = i + 1;
         }
-
     }
     var row_no = findRowNumber(col_no, feature.getId());
 
@@ -421,7 +423,7 @@ function query() {
 
         table.setAttribute("class", "table table-bordered");
         table.setAttribute("id", "table");
-        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+        // TẠO ROW TRÊN ĐẦU BẢNG HTML SỬ DỤNG CÁC ĐẦU TRÍCH DẪN Ở TRÊN.
 
         var tr = table.insertRow(-1);                   // TABLE ROW.
 
@@ -431,7 +433,7 @@ function query() {
             tr.appendChild(th);
         }
 
-        // ADD JSON DATA TO THE TABLE AS ROWS.
+        // THÊM DỮ LIỆU JSON VÀO BẢNG NHƯ ROWS.
         for (var i = 0; i < data.features.length; i++) {
 
             tr = table.insertRow(-1);
@@ -445,7 +447,7 @@ function query() {
             }
         }
 
-        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+        // CUỐI CÙNG THÊM BẢNG ĐƯỢC TẠO MỚI NHẤT VỚI DỮ LIỆU JSON VÀO MỘT CONTAINER.
         var divContainer = document.getElementById("table_data");
         divContainer.innerHTML = "";
         divContainer.appendChild(table);
@@ -460,16 +462,19 @@ function query() {
 
     addRowHandlers();
 }
+// End Query panel using WMS & WFS service
 
+// Delete All
 function clear_all() {
-    document.getElementById('map').style.height = '96%';
-    document.getElementById('table_data').style.height = '0%';
-    map.updateSize();
+    // Tìm kiếm kết hợp
     $('#table').empty();
     if (geojson) { geojson.getSource().clear(); map.removeLayer(geojson); }
     if (featureOverlay) { featureOverlay.getSource().clear(); map.removeLayer(featureOverlay); }
+    // End Tìm kiếm kết hợp
+
+    // Đo lường
     map.removeInteraction(draw);
-    if (vectorLayer) { vectorLayer.getSource().clear(); }
+    if (vector_measure) { vector_measure.getSource().clear(); }
     map.removeOverlay(helpTooltip);
     if (measureTooltipElement) {
         var elem = document.getElementsByClassName("tooltip tooltip-static");
@@ -478,13 +483,34 @@ function clear_all() {
             elem[i].remove();
         }
     }
-    map.un('singleclick', getinfo);
+    // End Đo lường
+    
+    // Lấy thông tin
     overlay.setPosition(undefined);
     closer.blur();
-
     map.un('click', highlight);
+    $("#info").empty();
+    // End Lấy thông tin
+
+    // Tìm kiếm không gian
+    if (vector_zoom2bbox) { vector_zoom2bbox.getSource().clear(); }
+    // End Tìm kiếm không gian
+
+    // Tìm kiếm thuộc tính, cơ bản
+    if (vector_addmarker) { vector_addmarker.getSource().clear(); }
+    // End Tìm kiếm thuộc tính, cơ bản
 }
-// End Query panel using WMS & WFS service
+// End Delete All
+
+// Đi tới khu vực
+function zoomPanbbox(a, b, c, d) {
+    var ext_zoom2bbox = [a, b, c, d];
+
+    ext_zoom2bbox = ol.extent.applyTransform(ext_zoom2bbox, ol.proj.getTransform("EPSG:4326", "EPSG:4326"));
+
+    map.getView().fit(ext_zoom2bbox, { size: map.getSize(), duration: 800 })
+}
+// End Đi tới khu vực
 
 // Zoom tới khu vực
 function zoom2bbox(a, b, c, d) {
@@ -492,7 +518,7 @@ function zoom2bbox(a, b, c, d) {
 
     ext_zoom2bbox = ol.extent.applyTransform(ext_zoom2bbox, ol.proj.getTransform("EPSG:4326", "EPSG:4326"));
 
-    var vector_zoom2bbox = new ol.layer.Vector({
+    vector_zoom2bbox = new ol.layer.Vector({
         source: new ol.source.Vector({
             features: [new ol.Feature({
                 geometry: new ol.geom.Polygon.fromExtent(ext_zoom2bbox),
@@ -576,7 +602,8 @@ function tknangcao() {
 // Tìm kiếm không gian
 function tkgian() {
     var xaphuong = document.getElementById("xaphuong").value;
-
+    var txtKG = document.getElementById("txtKG").value;
+    
     if (window.XMLHttpRequest) {
         // Code for IE7+, Firefox, Chrome, Opera, Safari 
         xmlhttp = new XMLHttpRequest();
@@ -590,14 +617,16 @@ function tkgian() {
             document.getElementById("kq_tkgian").innerHTML = xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET", "xltk_kgian.php?xp=" + xaphuong, true);
+    xmlhttp.open("GET", "xltk_kgian.php?xp=" + xaphuong + "&lchon=" + txtKG, true);
     xmlhttp.send();
 }
 // End tìm kiếm không gian
 
 // Thêm marker khi nhấn zoom
 function addmarker(lon, lat) {
-    var vector_addmarker = new ol.layer.Vector({
+    if (vector_addmarker) { vector_addmarker.getSource().clear(); }
+
+    vector_addmarker = new ol.layer.Vector({
         source: new ol.source.Vector({
             features: [new ol.Feature({
                 geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lon), parseFloat(lat)], 'EPSG:4326', 'EPSG:4326')),
@@ -615,9 +644,9 @@ function addmarker(lon, lat) {
 
     map.addLayer(vector_addmarker);
 
-    setTimeout(function () {
-        map.removeLayer(vector_addmarker);
-    }, 5000);
+    // setTimeout(function () {
+    //     map.removeLayer(vector_addmarker);
+    // }, 5000);
 
     var ext_addmarker = vector_addmarker.getSource().getExtent();
     map.getView().fit(ext_addmarker, { size: map.getSize(), maxZoom: 16, duration: 800 })
@@ -630,12 +659,12 @@ $("#document").ready(function () {
      */
     var container = document.getElementById('popup');
     var content = document.getElementById('popup-content');
-    var closer = document.getElementById('popup-closer');
+    closer = document.getElementById('popup-closer');
 
     /**
      * Tạo lớp phủ để cố định cửa sổ bật lên vào bản đồ.
      */
-    var overlay = new ol.Overlay({
+    overlay = new ol.Overlay({
         element: container,
         autoPan: true,
         autoPanAnimation: {
@@ -1081,14 +1110,14 @@ $("#document").ready(function () {
             'x2:' + destCoord[0], 'y2:' + destCoord[1]
         ];
         params.viewparams = viewparams.join(';');
-        result = new ol.layer.Image({
+        result_RoadFind = new ol.layer.Image({
             source: new ol.source.ImageWMS({
                 url: 'http://localhost:8080/geoserver/NhaTroNT/wms',
                 params: params
             })
         });
 
-        map.addLayer(result);
+        map.addLayer(result_RoadFind);
     });
 
     $("#btnReset").click(function () {
@@ -1097,7 +1126,7 @@ $("#document").ready(function () {
         startPoint.setGeometry(null);
         destPoint.setGeometry(null);
         // Remove the result layer.
-        map.removeLayer(result);
+        map.removeLayer(result_RoadFind);
     });
 
     $("#chkRoadFind").on('click', function () {
@@ -1327,7 +1356,7 @@ $("#document").ready(function () {
     // Measure(đo lường) tool
     var source_measure = new ol.source.Vector();
 
-    var vector_measure = new ol.layer.Vector({
+    vector_measure = new ol.layer.Vector({
         source: source_measure,
         style: new ol.style.Style({
             fill: new ol.style.Fill({
@@ -1364,13 +1393,13 @@ $("#document").ready(function () {
      * Lớp phủ để hiển thị các thông báo trợ giúp.
      * @type {module:ol/Overlay}
      */
-    var helpTooltip;
+    // var helpTooltip;
 
     /**
      * Phần tử chú giải công cụ đo lường.
      * @type {Element}
      */
-    var measureTooltipElement;
+    // var measureTooltipElement;
 
     /**
      * Lớp phủ để hiển thị phép đo.
@@ -1390,7 +1419,7 @@ $("#document").ready(function () {
      */
     var continueLineMsg = 'Nhấp để tiếp tục vẽ đường';
 
-    var draw; // biến vẽ toàn cục để có thể xóa nó sau
+    // var draw; // biến vẽ toàn cục để có thể xóa nó sau
 
     /**
      * Định dạng đầu ra độ dài.
