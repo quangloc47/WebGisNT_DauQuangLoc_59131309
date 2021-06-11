@@ -238,7 +238,6 @@ function findRowNumber(cn1, v1) {
     return msg;
 }
 
-
 function addRowHandlers() {
     var rows = document.getElementById("table").rows;
     var heads = table.getElementsByTagName('th');
