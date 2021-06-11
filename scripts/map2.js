@@ -1,5 +1,5 @@
 var map;
-var geojson, layer_name, layerSwitcher, featureOverlay;
+var geojson, layer_name, layerSwitcher, featureOverlay, highlightStyle;
 
 // Query panel using WMS & WFS service
 // wms_layers_window
