@@ -1,8 +1,22 @@
 <?php
 if ((isset($_GET['tieuchi'])) && (is_string($_GET['tieuchi']))) { // From index.php
     $tc = $_GET['tieuchi'];
-} else if ((isset($_POST['tieuchi'])) && (is_string($_POST['tieuchi']))) { // Form submission.
-    $tc = $_POST['tieuchi'];
+
+    $tieuchi_int = '';
+    $tieuchi_st = '';
+
+    if (is_numeric($tc)) {
+        $tieuchi_int = "dientich = '$tc'
+                        OR songuoio = '$tc'
+                        OR giaphong = '$tc'
+                        OR tiendien = '$tc'
+                        OR tiennuoc = '$tc'";
+    } else {
+        $tieuchi_st = "tentn ILIKE '%$tc%'
+                        OR tenlnt ILIKE '%$tc%'
+                        OR nhavesinh ILIKE '%$tc%'
+                        OR giogiac ILIKE '%$tc%'";
+    }
 } else { // Không có ID hợp lệ, hủy tập lệnh.
     echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
     include('includes/footer.html');
@@ -11,8 +25,7 @@ if ((isset($_GET['tieuchi'])) && (is_string($_GET['tieuchi']))) { // From index.
 
 if ((isset($_GET['khuvuc'])) && (is_string($_GET['khuvuc']))) { // Form submission.
     $kv = $_GET['khuvuc'];
-} else if ((isset($_POST['khuvuc'])) && (is_string($_POST['khuvuc']))) { // Form submission.
-    $kv = $_POST['khuvuc'];
+    $khuvuc = $kv;
 } else { // Không có ID hợp lệ, hủy tập lệnh.
     echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
     include('includes/footer.html');
@@ -23,10 +36,7 @@ if ((isset($_GET['khuvuc'])) && (is_string($_GET['khuvuc']))) { // Form submissi
 include('ketnoi.php');
 
 //Lấy dữ liệu từ file index.php
-$tieuchi = $tc;
-$khuvuc = $kv;
-
-if (empty($tieuchi) && ($khuvuc)) {
+if (empty($tc) && $khuvuc) {
     $sql = "SELECT hoten, public.user.sdt, CONCAT(sonha,' ',tenduong,', ',tenpx) as address, tentn, tenlnt, dientich, songuoio, nhavesinh, giaphong, tiencoc, tiendien, tiennuoc, giogiac, slphongtro,
                         ST_X(ST_Centroid(nhatro.geom)) AS lon, ST_Y(ST_Centroid(nhatro.geom)) AS lat, 
                         REPLACE(REPLACE(REPLACE('' || box2d(nhatro.geom),'BOX(',''),')',''),' ',',') AS bbox 
@@ -75,7 +85,7 @@ if (empty($tieuchi) && ($khuvuc)) {
     } else {
         echo "<p style = 'margin-left: 30px; font-size: 13pt; padding:20px 20px 0;'><b>Không tìm thấy kết quả nào!</b></p>";
     }
-} else if ($tieuchi && empty($khuvuc)) {
+} else if ($tc && empty($khuvuc)) {
     $sql = "SELECT hoten, public.user.sdt, CONCAT(sonha,' ',tenduong,', ',tenpx) as address, tentn, tenlnt, dientich, songuoio, nhavesinh, giaphong, tiencoc, tiendien, tiennuoc, giogiac, slphongtro,
                         ST_X(ST_Centroid(nhatro.geom)) AS lon, ST_Y(ST_Centroid(nhatro.geom)) AS lat, 
                         REPLACE(REPLACE(REPLACE('' || box2d(nhatro.geom),'BOX(',''),')',''),' ',',') AS bbox 
@@ -85,16 +95,9 @@ if (empty($tieuchi) && ($khuvuc)) {
                             INNER JOIN public.tiennghi ON public.nhatro.matn = public.tiennghi.matn 
                             INNER JOIN public.loainhatro ON public.nhatro.malnt = public.loainhatro.malnt 
                             INNER JOIN public.xaphuong ON public.nhatro.maphuongxa = public.xaphuong.mapx
-                        WHERE tentn ILIKE '%$tieuchi%'
-                            OR tenlnt ILIKE '%$tieuchi%'
-                            OR dientich = '$tieuchi'
-                            OR songuoio = '$tieuchi'
-                            OR nhavesinh ILIKE '%$tieuchi%'
-                            OR giaphong = '$tieuchi'
-                            OR tiencoc = '$tieuchi'
-                            OR tiendien = '$tieuchi'
-                            OR tiennuoc = '$tieuchi'
-                            OR giogiac ILIKE '%$tieuchi%'";
+                        WHERE 
+                            $tieuchi_st
+                            $tieuchi_int";
 
     $query = pg_query($conn, $sql);
     $i = 1;
@@ -133,7 +136,7 @@ if (empty($tieuchi) && ($khuvuc)) {
     } else {
         echo "<p style = 'margin-left: 30px; font-size: 13pt; padding:20px 20px 0;'><b>Không tìm thấy kết quả nào!</b></p>";
     }
-} else if (($tieuchi) && ($khuvuc)) {
+} else if ($tc && $khuvuc) {
     $sql = "SELECT hoten, public.user.sdt, CONCAT(sonha,' ',tenduong,', ',tenpx) as address, tentn, tenlnt, dientich, songuoio, nhavesinh, giaphong, tiencoc, tiendien, tiennuoc, giogiac, slphongtro,
                         ST_X(ST_Centroid(nhatro.geom)) AS lon, ST_Y(ST_Centroid(nhatro.geom)) AS lat, 
                         REPLACE(REPLACE(REPLACE('' || box2d(nhatro.geom),'BOX(',''),')',''),' ',',') AS bbox 
@@ -143,16 +146,9 @@ if (empty($tieuchi) && ($khuvuc)) {
                             INNER JOIN public.tiennghi ON public.nhatro.matn = public.tiennghi.matn 
                             INNER JOIN public.loainhatro ON public.nhatro.malnt = public.loainhatro.malnt 
                             INNER JOIN public.xaphuong ON public.nhatro.maphuongxa = public.xaphuong.mapx
-                        WHERE (tentn ILIKE '%$tieuchi%'
-                            OR tenlnt ILIKE '%$tieuchi%'
-                            OR dientich = '$tieuchi'
-                            OR songuoio = '$tieuchi'
-                            OR nhavesinh ILIKE '%$tieuchi%'
-                            OR giaphong = '$tieuchi'
-                            OR tiencoc = '$tieuchi'
-                            OR tiendien = '$tieuchi'
-                            OR tiennuoc = '$tieuchi'
-                            OR giogiac ILIKE '%$tieuchi%')
+                        WHERE 
+                            ($tieuchi_st
+                            $tieuchi_int)
                             AND (tenduong ILIKE '%$khuvuc%' OR tenpx ILIKE '%$khuvuc%')";
 
     $query = pg_query($conn, $sql);
@@ -192,5 +188,5 @@ if (empty($tieuchi) && ($khuvuc)) {
     } else {
         echo "<p style = 'margin-left: 30px; font-size: 13pt; padding:20px 20px 0;'><b>Không tìm thấy kết quả nào!</b></p>";
     }
-} else if (empty($tieuchi) && empty($khuvuc)) {
+} else if (empty($tc) && empty($khuvuc)) {
 }
