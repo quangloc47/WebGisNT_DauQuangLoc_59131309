@@ -29,6 +29,10 @@
 	<script src="vendor/jquery-3.6.0.min.js"></script>
 	<script src="scripts/map2.js"></script>
 	<script src="scripts/ol-layerswitcher.js"></script>
+
+	<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL,TextDecoder"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 </head>
 
 <body>

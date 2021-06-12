@@ -97,6 +97,27 @@
     <a id="image-download" download="map.png"></a>
     <!-- End Button tải hình ảnh bản đồ -->
 
+    <!-- Button xuất PDF hình ảnh bản đồ -->
+    <form class="form">
+        <label for="format">Page size </label>
+        <select id="format">
+            <option value="a0">A0 (slow)</option>
+            <option value="a1">A1</option>
+            <option value="a2">A2</option>
+            <option value="a3">A3</option>
+            <option value="a4" selected>A4</option>
+            <option value="a5">A5 (fast)</option>
+        </select>
+        <label for="resolution">Resolution </label>
+        <select id="resolution">
+            <option value="72">72 dpi (fast)</option>
+            <option value="150">150 dpi</option>
+            <option value="300">300 dpi (slow)</option>
+        </select>
+    </form>
+    <button id="export-pdf">Export PDF</button>
+    <!-- End Button xuất PDF hình ảnh bản đồ -->
+
     <div class="row">
         <!-- Tìm đường -->
         <div class="col-md-6">
