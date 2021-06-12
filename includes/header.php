@@ -13,7 +13,7 @@
 	<script src="bootstrap-4.5.3/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 	<script src="scripts/jquery-3.4.1.min.js"></script>
-	
+
 	<!-- Custom fonts for this template -->
 	<link href="fontawesome-free-5.15.3-web/css/all.css" rel="stylesheet">
 	<script src="fontawesome-free-5.15.3-web/js/all.js"></script>

@@ -317,6 +317,11 @@ label {
 .panzoom {
   margin-top: 69px;
 }
+
+#export-png {
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
 /* End Chức năng trang index */
 
 /* Tìm kiếm */

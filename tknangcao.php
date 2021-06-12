@@ -92,6 +92,11 @@
     <button id="clear-png" style="margin-bottom: 10px;" onclick="clear_all()" class="btn btn-default"><i class="fas fa-trash-alt"></i> Xóa tất cả</button>
     <!-- End Xóa tất cả -->
 
+    <!-- Button tải hình ảnh bản đồ -->
+    <a id="export-png" class="btn btn-default"><i class="fa fa-download"></i> Tải xuống hình ảnh bản đồ PNG</a>
+    <a id="image-download" download="map.png"></a>
+    <!-- End Button tải hình ảnh bản đồ -->
+
     <div class="row">
         <!-- Tìm đường -->
         <div class="col-md-6">

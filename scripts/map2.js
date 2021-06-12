@@ -483,7 +483,7 @@ function clear_all() {
         }
     }
     // End Đo lường
-    
+
     // Lấy thông tin
     overlay.setPosition(undefined);
     closer.blur();
@@ -598,7 +598,7 @@ function tknangcao() {
 function tkgian() {
     var xaphuong = document.getElementById("xaphuong").value;
     var txtKG = document.getElementById("txtKG").value;
-    
+
     if (window.XMLHttpRequest) {
         // Code for IE7+, Firefox, Chrome, Opera, Safari 
         xmlhttp = new XMLHttpRequest();
@@ -722,6 +722,11 @@ $("#document").ready(function () {
                 "STYLES": '',
                 "LAYERS": 'NhaTroNT:trambus',
                 "exceptions": 'application/vnd.ogc.se_inimage',
+            },
+            crossOrigin: 'Anonymous',
+            // remove this function config if the tile's src is nothing to decorate. It's usually to debug the src
+            tileLoadFunction: function (tile, src) {
+                tile.getImage().src = src
             }
         })
     });
@@ -736,6 +741,11 @@ $("#document").ready(function () {
                 "STYLES": '',
                 "LAYERS": 'NhaTroNT:truong',
                 "exceptions": 'application/vnd.ogc.se_inimage',
+            },
+            crossOrigin: 'Anonymous',
+            // remove this function config if the tile's src is nothing to decorate. It's usually to debug the src
+            tileLoadFunction: function (tile, src) {
+                tile.getImage().src = src
             }
         })
     });
@@ -750,6 +760,11 @@ $("#document").ready(function () {
                 "STYLES": '',
                 "LAYERS": 'NhaTroNT:tienich',
                 "exceptions": 'application/vnd.ogc.se_inimage',
+            },
+            crossOrigin: 'Anonymous',
+            // remove this function config if the tile's src is nothing to decorate. It's usually to debug the src
+            tileLoadFunction: function (tile, src) {
+                tile.getImage().src = src
             }
         })
     });
@@ -764,6 +779,11 @@ $("#document").ready(function () {
                 "STYLES": '',
                 "LAYERS": 'NhaTroNT:nhatro',
                 "exceptions": 'application/vnd.ogc.se_inimage',
+            },
+            crossOrigin: 'Anonymous',
+            // remove this function config if the tile's src is nothing to decorate. It's usually to debug the src
+            tileLoadFunction: function (tile, src) {
+                tile.getImage().src = src
             }
         })
     });
@@ -778,6 +798,11 @@ $("#document").ready(function () {
                 "STYLES": '',
                 "LAYERS": 'NhaTroNT:duong',
                 "exceptions": 'application/vnd.ogc.se_inimage',
+            },
+            crossOrigin: 'Anonymous',
+            // remove this function config if the tile's src is nothing to decorate. It's usually to debug the src
+            tileLoadFunction: function (tile, src) {
+                tile.getImage().src = src
             }
         })
     });
@@ -792,6 +817,11 @@ $("#document").ready(function () {
                 "STYLES": '',
                 "LAYERS": 'NhaTroNT:xaphuong',
                 "exceptions": 'application/vnd.ogc.se_inimage',
+            },
+            crossOrigin: 'Anonymous',
+            // remove this function config if the tile's src is nothing to decorate. It's usually to debug the src
+            tileLoadFunction: function (tile, src) {
+                tile.getImage().src = src
             }
         })
     });
@@ -806,6 +836,11 @@ $("#document").ready(function () {
                 "STYLES": '',
                 "LAYERS": 'NhaTroNT:thanhpho',
                 "exceptions": 'application/vnd.ogc.se_inimage',
+            },
+            crossOrigin: 'Anonymous',
+            // remove this function config if the tile's src is nothing to decorate. It's usually to debug the src
+            tileLoadFunction: function (tile, src) {
+                tile.getImage().src = src
             }
         })
     });
@@ -868,6 +903,48 @@ $("#document").ready(function () {
         })
     });
     // End Chồng các lớp layers vào Map
+
+    // Map Export PNG
+    document.getElementById('export-png').addEventListener('click', function () {
+        map.once('rendercomplete', function () {
+            var mapCanvas = document.createElement('canvas');
+            var size = map.getSize();
+            mapCanvas.width = size[0];
+            mapCanvas.height = size[1];
+            var mapContext = mapCanvas.getContext('2d');
+            Array.prototype.forEach.call(
+                document.querySelectorAll('.ol-layer canvas'),
+                function (canvas) {
+                    if (canvas.width > 0) {
+                        var opacity = canvas.parentNode.style.opacity;
+                        mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+                        var transform = canvas.style.transform;
+                        // Get the transform parameters from the style's transform matrix
+                        var matrix = transform
+                            .match(/^matrix\(([^\(]*)\)$/)[1]
+                            .split(',')
+                            .map(Number);
+                        // Apply the transform to the export map context
+                        CanvasRenderingContext2D.prototype.setTransform.apply(
+                            mapContext,
+                            matrix
+                        );
+                        mapContext.drawImage(canvas, 0, 0);
+                    }
+                }
+            );
+            if (navigator.msSaveBlob) {
+                // link download attribuute does not work on MS browsers
+                navigator.msSaveBlob(mapCanvas.msToBlob(), 'map.png');
+            } else {
+                var link = document.getElementById('image-download');
+                link.href = mapCanvas.toDataURL();
+                link.click();
+            }
+        });
+        map.renderSync();
+    });
+    // End Map Export PNG
 
     // Overview map
     var OSM = new ol.layer.Tile({
