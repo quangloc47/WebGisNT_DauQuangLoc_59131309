@@ -208,7 +208,7 @@ if ($rows > 0) {
                                 <td style="width: 10%"><b>Tiền cọc, phòng</b></td>
                                 <td style="width: 19%"><b>Giá điện, nước</b></td>
                                 <td style="width: 20%"><b>Thông tin chung</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
     $bg = '#eeeeee';
     while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
@@ -235,7 +235,7 @@ if ($rows > 0) {
                                     <b><i>Tiện nghi:</i></b> ' . $row2['tentn'] . '</br>
                                     <b><i>SL phòng trống:</i></b> ' . $row2['slphongtro'] . '
                                 </td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                 </td>
                             </tr>';

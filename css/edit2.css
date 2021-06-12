@@ -501,10 +501,27 @@ label {
 .zoom {
   padding: 5px;
   border-radius: 5px;
-  color: #00bfff;
+  color: white;
+  margin: 5px;
+  background-color: blue;
+  font-weight: 500;
 }
 
 .zoom:focus {
+  outline: unset;
+  outline: none;
+}
+
+.zoom2 {
+  padding: 7px;
+  border-radius: 5px;
+  color: white;
+  margin: 5px;
+  background-color: orangered;
+  font-weight: 500;
+}
+
+.zoom2:focus {
   outline: unset;
   outline: none;
 }

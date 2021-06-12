@@ -39,7 +39,7 @@ if ($lchon == 'HST') {
                                 <td style="text-align: center"><b>STT</b></td>
                                 <td><b>Bệnh viện</b></td>
                                 <td><b>Địa chỉ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query_lchon, NULL, PGSQL_ASSOC)) {
@@ -48,14 +48,9 @@ if ($lchon == 'HST') {
                                 <td style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
-
-                                    <script type="text/javascript">
-                                    var elem = document.querySelectorAll(".input-addon.btn.btn-default.fileinput-exists");
-                                    elem[1].click();
-                                    </script>
                                 </td>
                             </tr>';
             $i++;
@@ -93,7 +88,7 @@ else if ($lchon == 'trhoc') {
                                 <td style="text-align: center"><b>STT</b></td>
                                 <td><b>Trường học</b></td>
                                 <td><b>Địa chỉ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query_lchon, NULL, PGSQL_ASSOC)) {
@@ -102,14 +97,9 @@ else if ($lchon == 'trhoc') {
                                 <td style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentr'] . '</td>
                                 <td>' . $row2['address'] . '</td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
-
-                                    <script type="text/javascript">
-                                    var elem = document.querySelectorAll(".input-addon.btn.btn-default.fileinput-exists");
-                                    elem[1].click();
-                                    </script>
                                 </td>
                             </tr>';
             $i++;
@@ -157,7 +147,7 @@ else if ($lchon == 'ntro') {
                                     <td style="width: 10%"><b>Tiền cọc, phòng</b></td>
                                     <td style="width: 19%"><b>Giá điện, nước</b></td>
                                     <td style="width: 20%"><b>Thông tin chung</b></td>
-                                    <td><b>Vị trí</b></td>
+                                    <td style="text-align: center"><b>Vị trí</b></td>
                                 </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
@@ -184,14 +174,9 @@ else if ($lchon == 'ntro') {
                                         <b><i>Tiện nghi:</i></b> ' . $row2['tentn'] . '</br>
                                         <b><i>SL phòng trống:</i></b> ' . $row2['slphongtro'] . '
                                     </td>
-                                    <td>
+                                    <td style="text-align: center">
                                         <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                         <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
-
-                                        <script type="text/javascript">
-                                        var elem = document.querySelectorAll(".input-addon.btn.btn-default.fileinput-exists");
-                                        elem[1].click();
-                                        </script>
                                     </td>
                                 </tr>';
             $i++;
@@ -228,7 +213,7 @@ else if ($lchon == 'ATM') {
                                 <td style="text-align: center"><b>STT</b></td>
                                 <td><b>ATM - Ngân hàng</b></td>
                                 <td><b>Địa chỉ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query_lchon, NULL, PGSQL_ASSOC)) {
@@ -237,14 +222,9 @@ else if ($lchon == 'ATM') {
                                 <td style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
-
-                                    <script type="text/javascript">
-                                    var elem = document.querySelectorAll(".input-addon.btn.btn-default.fileinput-exists");
-                                    elem[1].click();
-                                    </script>
                                 </td>
                             </tr>';
             $i++;
@@ -281,7 +261,7 @@ else if ($lchon == 'BOOK') {
                                 <td style="text-align: center"><b>STT</b></td>
                                 <td><b>Nhà sách</b></td>
                                 <td><b>Địa chỉ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query_lchon, NULL, PGSQL_ASSOC)) {
@@ -290,14 +270,9 @@ else if ($lchon == 'BOOK') {
                                 <td style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
-
-                                    <script type="text/javascript">
-                                    var elem = document.querySelectorAll(".input-addon.btn.btn-default.fileinput-exists");
-                                    elem[1].click();
-                                    </script>
                                 </td>
                             </tr>';
             $i++;
@@ -334,7 +309,7 @@ else if ($lchon == 'MARKET') {
                                 <td style="text-align: center"><b>STT</b></td>
                                 <td><b>Chợ</b></td>
                                 <td><b>Địa chỉ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query_lchon, NULL, PGSQL_ASSOC)) {
@@ -343,14 +318,9 @@ else if ($lchon == 'MARKET') {
                                 <td style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
-
-                                    <script type="text/javascript">
-                                    var elem = document.querySelectorAll(".input-addon.btn.btn-default.fileinput-exists");
-                                    elem[1].click();
-                                    </script>
                                 </td>
                             </tr>';
             $i++;
@@ -387,7 +357,7 @@ else if ($lchon == 'POST') {
                                 <td style="text-align: center"><b>STT</b></td>
                                 <td><b>Bưu điện</b></td>
                                 <td><b>Địa chỉ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query_lchon, NULL, PGSQL_ASSOC)) {
@@ -396,14 +366,9 @@ else if ($lchon == 'POST') {
                                 <td style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
-
-                                    <script type="text/javascript">
-                                    var elem = document.querySelectorAll(".input-addon.btn.btn-default.fileinput-exists");
-                                    elem[1].click();
-                                    </script>
                                 </td>
                             </tr>';
             $i++;
@@ -440,7 +405,7 @@ else if ($lchon == 'ADM') {
                                 <td style="text-align: center"><b>STT</b></td>
                                 <td><b>Hành chính</b></td>
                                 <td><b>Địa chỉ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query_lchon, NULL, PGSQL_ASSOC)) {
@@ -449,14 +414,9 @@ else if ($lchon == 'ADM') {
                                 <td style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
-
-                                    <script type="text/javascript">
-                                    var elem = document.querySelectorAll(".input-addon.btn.btn-default.fileinput-exists");
-                                    elem[1].click();
-                                    </script>
                                 </td>
                             </tr>';
             $i++;
@@ -493,7 +453,7 @@ else {
                                 <td style="text-align: center"><b>STT</b></td>
                                 <td><b>Công viên</b></td>
                                 <td><b>Địa chỉ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query_lchon, NULL, PGSQL_ASSOC)) {
@@ -502,14 +462,9 @@ else {
                                 <td style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
-
-                                    <script type="text/javascript">
-                                    var elem = document.querySelectorAll(".input-addon.btn.btn-default.fileinput-exists");
-                                    elem[1].click();
-                                    </script>
                                 </td>
                             </tr>';
             $i++;

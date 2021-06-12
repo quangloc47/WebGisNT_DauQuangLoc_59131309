@@ -64,7 +64,7 @@ if (empty($tc) && $khuvuc) {
                                 <td><b>Địa chỉ</b></td>
                                 <td><b>SL trống</b></td>
                                 <td><b>Liên hệ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
@@ -115,7 +115,7 @@ if (empty($tc) && $khuvuc) {
                                 <td><b>Địa chỉ</b></td>
                                 <td><b>SL trống</b></td>
                                 <td><b>Liên hệ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
@@ -126,7 +126,7 @@ if (empty($tc) && $khuvuc) {
                                 <td>' . $row2['address'] . '</td>
                                 <td style="text-align: center">' . $row2['slphongtro'] . '</td>
                                 <td>' . $row2['sdt'] . '</td>
-                                <td>
+                                <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                 </td>
                             </tr>';
@@ -167,7 +167,7 @@ if (empty($tc) && $khuvuc) {
                                 <td><b>Địa chỉ</b></td>
                                 <td><b>SL trống</b></td>
                                 <td><b>Liên hệ</b></td>
-                                <td><b>Vị trí</b></td>
+                                <td style="text-align: center"><b>Vị trí</b></td>
                             </tr>';
         $bg = '#eeeeee';
         while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
