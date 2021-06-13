@@ -104,7 +104,6 @@
             </td>
 
             <!-- Xuất PDF hình ảnh bản đồ -->
-
             <form class="form">
                 <td style="vertical-align: middle; width: 151px">
                     <label for="format"><b>Kích thước trang</b></label>
@@ -415,8 +414,8 @@
                                         <td class="tkgian" style="width: 13.4%">
                                             <label class="medium mb-1" for=""><b>Đối tượng <i class="fas fa-bullseye icon_motel"></i> : </b></label>
                                         </td>
-                                        <td class="tkgian" style="width: 39%">
-                                            <select class="form-control" id="txtKG" name="txtKG" style="width: 436px">
+                                        <td class="tkgian" style="width: 100%">
+                                            <select class="form-control" id="txtKG" name="txtKG" style="width: 576px">
                                                 <option value="HST">Bệnh viện, trung tâm y tế</option>
                                                 <option value="ntro">Nhà trọ</option>
                                                 <option value="trhoc">Trường học</option>
@@ -426,15 +425,6 @@
                                                 <option value="POST">Bưu điện</option>
                                                 <option value="ADM">Hành chính</option>
                                                 <option value="PARK">Công viên</option>
-                                            </select>
-                                        </td>
-                                        <td class="tkgian" style="width: 7%">
-                                            <label class="medium mb-1" for=""><b>Bán kính:</b></label>
-                                        </td>
-                                        <td class="tkgian">
-                                            <select class="form-control" id="txtBK" name="txtBK" style="width: 94px">
-                                                <option value="Riêng">500 m</option>
-                                                <option value="Chung">1 km</option>
                                             </select>
                                         </td>
                                     </tr>
