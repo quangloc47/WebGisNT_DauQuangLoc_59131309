@@ -134,35 +134,54 @@
     <div id="info"></div>
     <!-- End Chi tiết nhà trọ -->
 
-    <!-- Xóa tất cả -->
-    <button id="clear-png" style="margin-bottom: 10px;" onclick="clear_all()" class="btn btn-default"><i class="fas fa-trash-alt"></i> Xóa tất cả</button>
-    <!-- End Xóa tất cả -->
+    <table class="table table-borderless table-primary" style="width: 100%;">
+        <tr>
+            <td style="width: 145px" class="bg-light">
+                <!-- Xóa tất cả -->
+                <button id="clear-png" onclick="clear_all()" class="btn btn-danger btn-block"><i class="fas fa-trash-alt"></i> Xóa tất cả</button>
+                <!-- End Xóa tất cả -->
+            </td>
 
-    <!-- Button tải hình ảnh bản đồ -->
-    <a id="export-png" class="btn btn-default"><i class="fa fa-download"></i> Tải xuống hình ảnh bản đồ PNG</a>
-    <a id="image-download" download="map.png"></a>
-    <!-- End Button tải hình ảnh bản đồ -->
+            <td class="bg-light">
+                <!-- Button tải hình ảnh bản đồ -->
+                <a id="export-png" class="btn btn-success btn-block"><i class="fa fa-download"></i> Tải xuống hình ảnh bản đồ PNG</a>
+                <a id="image-download" download="map.png"></a>
+                <!-- End Button tải hình ảnh bản đồ -->
+            </td>
 
-    <!-- Button xuất PDF hình ảnh bản đồ -->
-    <form class="form">
-        <label for="format">Page size </label>
-        <select id="format">
-            <option value="a0">A0 (slow)</option>
-            <option value="a1">A1</option>
-            <option value="a2">A2</option>
-            <option value="a3">A3</option>
-            <option value="a4" selected>A4</option>
-            <option value="a5">A5 (fast)</option>
-        </select>
-        <label for="resolution">Resolution </label>
-        <select id="resolution">
-            <option value="72">72 dpi (fast)</option>
-            <option value="150">150 dpi</option>
-            <option value="300">300 dpi (slow)</option>
-        </select>
-    </form>
-    <button id="export-pdf">Export PDF</button>
-    <!-- End Button xuất PDF hình ảnh bản đồ -->
+            <!-- Xuất PDF hình ảnh bản đồ -->
+            <form class="form">
+                <td style="vertical-align: middle; width: 151px">
+                    <label for="format"><b>Kích thước trang</b></label>
+                </td>
+                <td style="padding-left: 0; padding-right: 0">
+                    <select id="format" class="form-control">
+                        <option value="a0">A0 (chậm)</option>
+                        <option value="a1">A1</option>
+                        <option value="a2">A2</option>
+                        <option value="a3">A3</option>
+                        <option value="a4" selected>A4</option>
+                        <option value="a5">A5 (nhanh)</option>
+                    </select>
+                </td>
+                <td style="vertical-align: middle; width: 121px">
+                    <label for="resolution"><b>Độ phân giải</b></label>
+                </td>
+                <td style="padding-left: 0; padding-right: 0">
+                    <select id="resolution" class="form-control">
+                        <option value="72">72 dpi (nhanh)</option>
+                        <option value="150">150 dpi</option>
+                        <option value="300">300 dpi (chậm)</option>
+                    </select>
+                </td>
+            </form>
+
+            <td style="width: 141px">
+                <button id="export-pdf" class="btn btn-warning btn-block"><i class="fa fa-download"></i> Xuất PDF</button>
+            </td>
+            <!-- End Xuất PDF hình ảnh bản đồ -->
+        </tr>
+    </table>
 
     <div class="row">
         <!-- Tìm đường -->
