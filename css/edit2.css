@@ -1109,3 +1109,49 @@ label {
   max-height: 465px;
 }
 /* End Tìm kiếm kết hợp */
+
+/* Button Phân trang */
+.linkPaggingList.active,
+.linkPaggingList:hover {
+  background-color: white;
+  text-decoration: none;
+  color: #04b4ae;
+}
+
+.linkPaggingList.active {
+  margin: 0 5px 0 0;
+}
+
+.linkPaggingList {
+  width: 34px;
+  height: 33.2px;
+  font-size: 16px;
+  color: white;
+  line-height: 28px;
+  background-color: #04b4ae;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  display: inline-block;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  border: 2px solid #7fc5ac;
+}
+
+.angle-left svg {
+  font-size: 36px;
+  margin-bottom: -8px;
+  margin-right: 5px;
+}
+
+.angle-right svg {
+  font-size: 36px;
+  margin-bottom: -8px;
+  margin-left: 5px;
+}
+/* End Button Phân trang */

@@ -220,21 +220,21 @@
 
 			// Nếu đó không phải là trang đầu tiên, hãy tạo nút Previous:
 			if ($current_page != 1) {
-				echo '<a href="view_users3.php?s=' . ($start - $display) . '&p=' . $pages . '&sort=' . $sort . '">Previous</a> ';
+				echo '<a class="angle-left" href="view_users3.php?s=' . ($start - $display) . '&p=' . $pages . '&sort=' . $sort . '"><i class="fas fa-angle-left"></i></a> ';
 			}
 
 			// Tạo tất cả các trang được đánh số:
 			for ($i = 1; $i <= $pages; $i++) {
 				if ($i != $current_page) {
-					echo '<a href="view_users3.php?s=' . (($display * ($i - 1))) . '&p=' . $pages . '&sort=' . $sort . '">' . $i . '</a> ';
+					echo '<a class="linkPaggingList" href="view_users3.php?s=' . (($display * ($i - 1))) . '&p=' . $pages . '&sort=' . $sort . '">' . $i . '</a> ';
 				} else {
-					echo $i . ' ';
+					echo '<a class="linkPaggingList active">'. $i .'</a>';
 				}
 			} // Kết thúc vòng lặp FOR.
 
 			// Nếu đó không phải là trang cuối cùng, hãy tạo nút Next:
 			if ($current_page != $pages) {
-				echo '<a href="view_users3.php?s=' . ($start + $display) . '&p=' . $pages . '&sort=' . $sort . '">Next</a>';
+				echo '<a class="angle-right" href="view_users3.php?s=' . ($start + $display) . '&p=' . $pages . '&sort=' . $sort . '"><i class="fas fa-angle-right"></i></a>';
 			}
 
 			echo '</b></div>'; // Đóng đoạn.
