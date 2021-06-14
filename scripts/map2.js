@@ -888,6 +888,12 @@ $("#document").ready(function () {
         target: 'map',
         loadTilesWhileAnimating: true,
         layers: [
+            new ol.layer.Tile({
+                title: 'OSM',
+                type: 'base',
+                visible: true,
+                source: new ol.source.OSM()
+            }),
             ThanhPho,
             XaPhuong,
             Duong,
