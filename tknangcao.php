@@ -445,7 +445,7 @@
                                         </td>
 
                                         <td class="tkgian" style="width: 13.4%">
-                                            <label class="medium mb-1" for=""><b>Bán kính(m) <i class="fas fa-bullseye icon_motel"></i> : </b></label>
+                                            <label class="medium mb-1" for=""><b>Bán kính (m) <i class="fas fa-bullseye icon_motel"></i> : </b></label>
                                         </td>
                                         <td class="tkgian">
                                             <input class="form-control py-3" placeholder="Ví dụ: 500" id="txtBanKinh" name="txtBanKinh" type="number" required />
