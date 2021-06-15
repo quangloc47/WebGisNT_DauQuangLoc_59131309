@@ -239,8 +239,6 @@
                                 ?>
                             </select>
 
-                            <button style="display: none;" type="button" name="submit" onclick="pan();" class="btn btn-primary btn-block">Tìm kiếm</button>
-
                             <script type="text/javascript">
                                 $("#pan").change(function() {
                                     $(document).ready(function pan() {

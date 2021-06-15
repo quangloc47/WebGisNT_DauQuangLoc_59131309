@@ -9,6 +9,16 @@ if ((isset($_GET['tduong'])) && (is_string($_GET['tduong']))) { // From tknangca
 }
 // End Tên đường
 
+// Thuộc phường xã
+if ((isset($_GET['phuongxa'])) && (is_string($_GET['phuongxa']))) { // From tknangcao.php
+    $phuongxa = $_GET['phuongxa'];
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Thuộc phường xã
+
 // Loại nhà trọ
 if ((isset($_GET['lphong'])) && (is_string($_GET['lphong']))) { // From tknangcao.php
     $lphong = $_GET['lphong'];
@@ -175,7 +185,8 @@ $sql = "SELECT hoten, public.user.sdt, CONCAT(sonha,' ',tenduong,', ',tenpx) as 
                             INNER JOIN public.tiennghi ON public.nhatro.matn = public.tiennghi.matn 
                             INNER JOIN public.loainhatro ON public.nhatro.malnt = public.loainhatro.malnt 
                             INNER JOIN public.xaphuong ON public.nhatro.maphuongxa = public.xaphuong.mapx
-                        WHERE tenduong ILIKE '%$tduong%' 
+                        WHERE tenduong ILIKE '%$tduong%'
+                        AND maphuongxa ILIKE '%$phuongxa%' 
                         AND tenlnt ILIKE '%$lphong%'
                         $dtich_sql
                         $gphong_sql

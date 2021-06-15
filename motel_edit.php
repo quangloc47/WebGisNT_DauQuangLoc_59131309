@@ -118,7 +118,7 @@
                                 <div class="col-md-7">
                                     <div class="form-group">
                                         <label class="medium mb-1 motel" for="inputRoad"><b>Tên đường <i class="fas fa-road icon_motel"></i><font color="red">*</font></b></label>
-                                        <select class="form-control" name="duong">
+                                        <select class="form-control" name="duong" required>
                                             <?php
                                             $duong =  pg_query($conn, "SELECT * FROM public.duong WHERE tenduong!=''");
                                             while ($a = pg_fetch_array($duong)) {
@@ -134,7 +134,7 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label class="medium mb-1 motel" for="inputXP"><b>Xã phường <i class="fas fa-jedi icon_motel"></i><font color="red">*</font></b></label>
-                                        <select class="form-control" name="xaphuong">
+                                        <select class="form-control" name="xaphuong" required>
                                             <?php
                                             $xaphuong =  pg_query($conn, "SELECT * FROM public.xaphuong");
                                             while ($d = pg_fetch_array($xaphuong)) {
@@ -153,20 +153,20 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="medium mb-1 motel" for="inputX"><b>Tọa độ X <i class="fab fa-xing-square icon_motel"></i><font color="red">*</font></b></label>
-                                        <input class="form-control py-3" name="txtX" type="text" placeholder="Ví dụ: 109.123456..." pattern="^[0-9]{3}[.][0-9]{6}$" value="<?php echo $row[6] ?>" required />
+                                        <input class="form-control py-3" name="txtX" type="text" placeholder="Ví dụ: 109.123456..." value="<?php echo $row[6] ?>" required />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="medium mb-1 motel" for="inputY"><b>Tọa độ Y <i class="fab fa-y-combinator icon_motel"></i><font color="red">*</font></b></label>
-                                        <input class="form-control py-3" name="txtY" type="text" placeholder="Ví dụ: 12.123456..." pattern="^[0-9]{2}[.][0-9]{6}$" value="<?php echo $row[7] ?>" required />
+                                        <input class="form-control py-3" name="txtY" type="text" placeholder="Ví dụ: 12.123456..." value="<?php echo $row[7] ?>" required />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="medium mb-1 motel" for="inputTNg"><b>Tiện nghi <i class="fas fa-bed icon_motel"></i><font color="red">*</font></b></label>
-                                <select class="form-control" name="tiennghi">
+                                <select class="form-control" name="tiennghi" required>
                                     <?php
                                     $tiennghi =  pg_query($conn, "SELECT * FROM public.tiennghi");
                                     while ($b = pg_fetch_array($tiennghi)) {
@@ -183,7 +183,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="medium mb-1 motel" for="inputLNT"><b>Loại nhà trọ <i class="fas fa-house-user icon_motel"></i><font color="red">*</font></b></label>
-                                        <select class="form-control" name="lnhatro">
+                                        <select class="form-control" name="lnhatro" required>
                                             <?php
                                             $lnhatro =  pg_query($conn, "SELECT * FROM public.loainhatro");
                                             while ($c = pg_fetch_array($lnhatro)) {
@@ -217,7 +217,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="medium mb-1 motel" for="inputNVS"><b>Nhà vệ sinh <i class="fas fa-toilet icon_motel"></i><font color="red">*</font></b></label>
-                                        <select class="form-control" name="txtNVS">
+                                        <select class="form-control" name="txtNVS" required>
                                             <?php
                                             echo '<option value="Riêng" ';
                                             if ($row[12] == 'Riêng') echo "selected";

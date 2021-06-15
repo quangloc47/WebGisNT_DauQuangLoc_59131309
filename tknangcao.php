@@ -193,8 +193,6 @@
                                 ?>
                             </select>
 
-                            <button style="display: none;" type="button" name="submit" onclick="pan();" class="btn btn-primary btn-block">Tìm kiếm</button>
-
                             <script type="text/javascript">
                                 $("#pan").change(function() {
                                     $(document).ready(function pan() {
@@ -284,9 +282,28 @@
                             <form action="" method="post">
                                 <p style="font-size: 13pt; padding: 0; text-align: justify">Sử dụng các toán tử <font color="red">= (bằng), > (lớn hơn), < (bé hơn), >= (lớn hơn hoặc bằng), <= (bé hơn hoặc bằng)</font>
                                                 để thực hiện tìm kiếm với một số thuộc tính, các thuộc tính không muốn xét có thể bỏ trống! <b>Lưu ý:</b> Các toán tử với thuộc tính muốn tìm ngăn cách nhau bởi dấu cách!</p>
-                                <div class="form-group">
-                                    <label class="medium mb-1" for=""><b>Tên đường:</b></label>
-                                    <input class="form-control py-3" placeholder="Ví dụ: Nguyễn Đình Chiểu" id="txtTenDuong" name="txtTenDuong" type="text" />
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="medium mb-1" for=""><b>Tên đường:</b></label>
+                                            <input class="form-control py-3" placeholder="Ví dụ: Nguyễn Đình Chiểu" id="txtTenDuong" name="txtTenDuong" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="medium mb-1" for=""><b>Phường/Xã:</b></label>
+                                        <select class="form-control" name="txtPhuongXa" id='txtPhuongXa'>
+                                            <option value=""> -- Chọn hoặc bỏ qua -- </option>
+                                            <?php
+                                            $xaphuong =  pg_query($conn, "SELECT * FROM public.xaphuong");
+                                            while ($d = pg_fetch_array($xaphuong)) {
+                                                echo "<option value='$d[mapx]'";
+                                                if ((isset($_POST['xaphuong'])) && $_POST['xaphuong'] == $d['mapx'])
+                                                    echo "selected='1'";
+                                                echo "> $d[tenpx] </option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="col-md-6">
@@ -412,12 +429,11 @@
                                 <table class="tables table-borderless">
                                     <tr>
                                         <td class="tkgian" style="width: 13.4%">
-                                            <label class="medium mb-1" for=""><b>Đối tượng <i class="fas fa-bullseye icon_motel"></i> : </b></label>
+                                            <label class="medium mb-1" for=""><b>Đối tượng <i class="far fa-life-ring icon_motel"></i> : </b></label>
                                         </td>
-                                        <td class="tkgian" style="width: 100%">
+                                        <td class="tkgian">
                                             <select class="form-control" id="txtKG" name="txtKG" style="width: 576px">
                                                 <option value="HST">Bệnh viện, trung tâm y tế</option>
-                                                <option value="ntro">Nhà trọ</option>
                                                 <option value="trhoc">Trường học</option>
                                                 <option value="BOOK">Nhà sách</option>
                                                 <option value="ATM">ATM - Ngân hàng</option>
@@ -427,8 +443,68 @@
                                                 <option value="PARK">Công viên</option>
                                             </select>
                                         </td>
+
+                                        <td class="tkgian" style="width: 13.4%">
+                                            <label class="medium mb-1" for=""><b>Bán kính(m) <i class="fas fa-bullseye icon_motel"></i> : </b></label>
+                                        </td>
+                                        <td class="tkgian">
+                                            <input class="form-control py-3" placeholder="Ví dụ: 500" id="txtBanKinh" name="txtBanKinh" type="number" required />
+                                        </td>
                                     </tr>
                                 </table>
+
+                                <div id="kq_select">
+
+                                </div>
+
+                                <script type="text/javascript">
+                                    $("#txtKG").change(function() {
+                                        $(document).ready(function kgian() {
+                                            var kgian = document.getElementById("txtKG").value;
+
+                                            if (kgian == 'trhoc') {
+                                                if (window.XMLHttpRequest) {
+                                                    // Code for IE7+, Firefox, Chrome, Opera, Safari 
+                                                    xmlhttp = new XMLHttpRequest();
+                                                } else {
+                                                    // Code for IE6, IE5
+                                                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                                                }
+                                                xmlhttp.onreadystatechange = function() {
+                                                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                                        document.getElementById("kq_select").innerHTML = xmlhttp.responseText;
+                                                    }
+                                                }
+                                                xmlhttp.open("GET", "xl_select.php?select=" + kgian, true);
+                                                xmlhttp.send();
+                                            } else {
+                                                $("#kq_select").empty();
+                                            }
+                                        });
+                                    });
+                                </script>
+
+                                <!-- <table class="tables table-borderless">
+                                    <tr>
+                                        <td class="tkgian" style="width: 13.4%">
+                                            <label class="medium mb-1" for=""><b>Chọn tọa độ <i class="fas fa-bullseye icon_motel"></i> : </b></label>
+                                        </td>
+
+                                        <td class="tkgian">
+                                            <label class="medium mb-1" for=""><b>Lon: </b></label>
+                                        </td>
+                                        <td class="tkgian">
+                                            <input class="form-control py-3" placeholder="Ví dụ: 109.123456" id="txtLon" name="txtLon" type="text" />
+                                        </td>
+
+                                        <td class="tkgian">
+                                            <label class="medium mb-1" for=""><b>Lat: </b></label>
+                                        </td>
+                                        <td class="tkgian">
+                                            <input class="form-control py-3" placeholder="Ví dụ: 12.123456" id="txtLat" name="txtLat" type="text" />
+                                        </td>
+                                    </tr>
+                                </table> -->
                                 <div class="form-row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-1">

@@ -565,6 +565,7 @@ function timkiem() {
 // Tìm kiếm nhà trọ nâng cao
 function tknangcao() {
     var txtTenDuong = document.getElementById("txtTenDuong").value;
+    var txtPhuongXa = document.getElementById("txtPhuongXa").value;
     var txtLPhong = document.getElementById("txtLPhong").value;
     var txtDienTich = document.getElementById("txtDienTich").value;
     var txtGPhong = document.getElementById("txtGPhong").value;
@@ -587,9 +588,10 @@ function tknangcao() {
             document.getElementById("kq_tknangcao").innerHTML = xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET", "xltk_nangcao.php?tduong=" + txtTenDuong + "&lphong=" + txtLPhong + "&dtich="
-        + txtDienTich + "&gphong=" + txtGPhong + "&slnguoi=" + txtSLNguoi + "&gdien=" + txtGDien + "&gnuoc="
-        + txtGNuoc + "&ggiac=" + txtGioGiac + "&nvs=" + txtNVS, true);
+    xmlhttp.open("GET", "xltk_nangcao.php?tduong=" + txtTenDuong + "&lphong=" + txtLPhong 
+    + "&phuongxa=" + txtPhuongXa + "&dtich=" + txtDienTich + "&gphong=" + txtGPhong 
+    + "&slnguoi=" + txtSLNguoi + "&gdien=" + txtGDien + "&gnuoc="
+    + txtGNuoc + "&ggiac=" + txtGioGiac + "&nvs=" + txtNVS, true);
     xmlhttp.send();
 }
 // End Tìm kiếm nhà trọ nâng cao
@@ -598,6 +600,15 @@ function tknangcao() {
 function tkgian() {
     var xaphuong = document.getElementById("xaphuong").value;
     var txtKG = document.getElementById("txtKG").value;
+    var txtBK = document.getElementById("txtBanKinh").value;
+    var txtTR;
+
+    if (txtKG == 'trhoc') {
+        txtTR = document.getElementById("txtTR").value;
+    }
+    else {
+        txtTR = null;
+    }
 
     if (window.XMLHttpRequest) {
         // Code for IE7+, Firefox, Chrome, Opera, Safari 
@@ -612,7 +623,7 @@ function tkgian() {
             document.getElementById("kq_tkgian").innerHTML = xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET", "xltk_kgian.php?xp=" + xaphuong + "&lchon=" + txtKG, true);
+    xmlhttp.open("GET", "xltk_kgian.php?xp=" + xaphuong + "&lchon=" + txtKG + "&bkinh=" + txtBK + "&tentr=" + txtTR, true);
     xmlhttp.send();
 }
 // End tìm kiếm không gian
