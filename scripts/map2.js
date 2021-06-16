@@ -3,6 +3,7 @@ var geojson, layer_name, layerSwitcher, featureOverlay, highlightStyle;
 var draw, vector_measure, helpTooltip, measureTooltipElement;
 var overlay, closer;
 var vector_zoom2bbox, vector_addmarker;
+var Point, vectorLayer_LonLat, vector_buffer;
 
 // Query panel using WMS & WFS service
 // wms_layers_window
@@ -491,6 +492,15 @@ function clear_all() {
     $("#info").empty();
     // End Lấy thông tin
 
+    // Lấy tọa độ tìm kiếm xung quanh
+    if (vectorLayer_LonLat) {
+        Point.setGeometry(null);
+        $("#txtLon").val(null);
+        $("#txtLat").val(null);
+    }
+    if (vector_buffer) { vector_buffer.getSource().clear(); }
+    // End Lấy tọa độ tìm kiếm xung quanh
+
     // Tìm kiếm không gian
     if (vector_zoom2bbox) { vector_zoom2bbox.getSource().clear(); }
     // End Tìm kiếm không gian
@@ -588,10 +598,10 @@ function tknangcao() {
             document.getElementById("kq_tknangcao").innerHTML = xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET", "xltk_nangcao.php?tduong=" + txtTenDuong + "&lphong=" + txtLPhong 
-    + "&phuongxa=" + txtPhuongXa + "&dtich=" + txtDienTich + "&gphong=" + txtGPhong 
-    + "&slnguoi=" + txtSLNguoi + "&gdien=" + txtGDien + "&gnuoc="
-    + txtGNuoc + "&ggiac=" + txtGioGiac + "&nvs=" + txtNVS, true);
+    xmlhttp.open("GET", "xltk_nangcao.php?tduong=" + txtTenDuong + "&lphong=" + txtLPhong
+        + "&phuongxa=" + txtPhuongXa + "&dtich=" + txtDienTich + "&gphong=" + txtGPhong
+        + "&slnguoi=" + txtSLNguoi + "&gdien=" + txtGDien + "&gnuoc="
+        + txtGNuoc + "&ggiac=" + txtGioGiac + "&nvs=" + txtNVS, true);
     xmlhttp.send();
 }
 // End Tìm kiếm nhà trọ nâng cao
@@ -627,6 +637,31 @@ function tkgian() {
     xmlhttp.send();
 }
 // End tìm kiếm không gian
+
+// Tìm kiếm xung quanh
+function tkxquanh() {
+    var txtXQ = document.getElementById("txtXQ").value;
+    var txtBanKinhXQ = document.getElementById("txtBanKinhXQ").value;
+    var txtLon = document.getElementById("txtLon").value;
+    var txtLat = document.getElementById("txtLat").value;
+
+    if (window.XMLHttpRequest) {
+        // Code for IE7+, Firefox, Chrome, Opera, Safari 
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {
+        // Code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("kq_xquanh").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "xltk_xquanh.php?kv=" + txtXQ + "&bkinh=" + txtBanKinhXQ + "&lon=" + txtLon + "&lat=" + txtLat, true);
+    xmlhttp.send();
+}
+// End tìm kiếm xung quanh
 
 // Thêm marker khi nhấn zoom
 function addmarker(lon, lat) {
@@ -1241,6 +1276,61 @@ $("#document").ready(function () {
         }
     });
     // End Show the user's location
+
+    // Lấy tọa độ tìm kiếm xung quanh
+    Point = new ol.Feature();
+
+    vectorLayer_LonLat = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [Point]
+        })
+    });
+
+    map.addLayer(vectorLayer_LonLat);
+
+    function lonlat(evt) {
+        if (Point.getGeometry() == null) {
+            // First click.
+            Point.setGeometry(new ol.geom.Point(evt.coordinate));
+            $("#txtLon").val(evt.coordinate[0]);
+            $("#txtLat").val(evt.coordinate[1]);
+        }
+    }
+
+    $("#chkLonLat").on('click', function () {
+        var isChecked = $(this).is(':checked');
+        if (isChecked) {
+            map.on('singleclick', lonlat);
+        }
+        else {
+            map.un('singleclick', lonlat);
+        }
+    });
+
+    var wkt;
+
+    $("#btxquanh").on('click', function () {
+        setTimeout(function(){ 
+            wkt = document.getElementById("geometry").value; 
+            var format = new ol.format.WKT();
+
+            var feature = format.readFeature(wkt, {
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:4326',
+            });
+    
+            vector_buffer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [feature],
+                }),
+            });
+    
+            map.addLayer(vector_buffer);
+            vector_buffer = vector_buffer.getSource().getExtent();
+            map.getView().fit(vector_buffer, { size: map.getSize(), maxZoom: 16, duration: 800 });
+        }, 2000);
+    });
+    // End Lấy tọa độ tìm kiếm xung quanh
 
     // Tìm đường đi
     var startPoint = new ol.Feature();

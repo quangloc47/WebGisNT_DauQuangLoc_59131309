@@ -28,3 +28,11 @@ FROM public.nhatro tr
             INNER JOIN public.loainhatro lnt ON tr.malnt = lnt.malnt 
             INNER JOIN public.xaphuong xp ON tr.maphuongxa = xp.mapx
 WHERE tr.maphuongxa = 'PX023';
+
+TÌM KIẾM XUNG QUANH
+SELECT *  
+FROM public.nhatro 
+WHERE ST_DWithin(geom, ST_MakePoint(109.202364, 12.268127)::geography, 300);
+SELECT ST_Buffer(  
+    ST_MakePoint(109.202364, 12.268127)::geography, 
+    300)::geometry;

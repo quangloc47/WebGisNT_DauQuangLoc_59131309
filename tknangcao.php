@@ -273,14 +273,16 @@
 
                     <button class="tabsLinks tabs" onclick="openTab(event, 'tab2')">TÌM KIẾM KHÔNG GIAN</button>
 
-                    <button class="tabsLinks tabs" onclick="openTab(event, 'tab3')">TÌM KIẾM KẾT HỢP</button>
+                    <button class="tabsLinks tabs" onclick="openTab(event, 'tab3')">TÌM KIẾM XUNG QUANH</button>
+
+                    <button class="tabsLinks tabs" onclick="openTab(event, 'tab4')">TÌM KIẾM KẾT HỢP</button>
                 </div>
 
                 <div id="tab1" class="contentProductTabs">
                     <div class="subProductTabs">
                         <div class="col-md-12">
                             <form action="" method="post">
-                                <p style="font-size: 13pt; padding: 0; text-align: justify">Sử dụng các toán tử <font color="red">= (bằng), > (lớn hơn), < (bé hơn), >= (lớn hơn hoặc bằng), <= (bé hơn hoặc bằng)</font>
+                                <p style="font-size: 13pt; padding: 0; text-align: justify">Sử dụng các toán tử <font color="red">= (bằng), > (lớn hơn), < (bé hơn),>= (lớn hơn hoặc bằng), <= (bé hơn hoặc bằng)</font>
                                                 để thực hiện tìm kiếm với một số thuộc tính, các thuộc tính không muốn xét có thể bỏ trống! <b>Lưu ý:</b> Các toán tử với thuộc tính muốn tìm ngăn cách nhau bởi dấu cách!</p>
                                 <div class="form-row">
                                     <div class="col-md-6">
@@ -411,7 +413,7 @@
                                         </td>
                                         <td class="tkgian" style="width: 39%">
                                             <select class="form-control" name="xaphuong" id='xaphuong' style="width: 576px">
-                                                <option value=""></option>
+                                                <option value=""> -- Chọn hoặc bỏ qua -- </option>
                                                 <?php
                                                 $xaphuong =  pg_query($conn, "SELECT * FROM public.xaphuong");
                                                 while ($d = pg_fetch_array($xaphuong)) {
@@ -484,29 +486,14 @@
                                     });
                                 </script>
 
-                                <!-- <table class="tables table-borderless">
-                                    <tr>
-                                        <td class="tkgian" style="width: 13.4%">
-                                            <label class="medium mb-1" for=""><b>Chọn tọa độ <i class="fas fa-bullseye icon_motel"></i> : </b></label>
-                                        </td>
-
-                                        <td class="tkgian">
-                                            <label class="medium mb-1" for=""><b>Lon: </b></label>
-                                        </td>
-                                        <td class="tkgian">
-                                            <input class="form-control py-3" placeholder="Ví dụ: 109.123456" id="txtLon" name="txtLon" type="text" />
-                                        </td>
-
-                                        <td class="tkgian">
-                                            <label class="medium mb-1" for=""><b>Lat: </b></label>
-                                        </td>
-                                        <td class="tkgian">
-                                            <input class="form-control py-3" placeholder="Ví dụ: 12.123456" id="txtLat" name="txtLat" type="text" />
-                                        </td>
-                                    </tr>
-                                </table> -->
                                 <div class="form-row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        <div class="form-group mb-1">
+                                            <button type="button" style="width: 152px" onclick="object_add();" class="btn btn-success btn-block">Thêm đối tượng</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
                                         <div class="form-group mb-1">
                                             <button type="button" style="width: 152px" onclick="tkgian();" class="btn btn-primary btn-block">Tìm kiếm</button>
                                         </div>
@@ -529,6 +516,83 @@
                 </div>
 
                 <div id="tab3" class="contentProductTabs">
+                    <div class="subProductTabs">
+                        <div class="col-md-12">
+                            <form action="" method="post" style="margin-top: 20px;">
+                                <table class="tables table-borderless">
+                                    <tr>
+                                        <td class="tkgian" style="width: 19.7%">
+                                            <label class="medium mb-1" for=""><b>Đối tượng cần tìm kiếm <i class="far fa-life-ring icon_motel"></i> : </b></label>
+                                        </td>
+                                        <td class="tkgian">
+                                            <select class="form-control" id="txtXQ" name="txtXQ" style="width: 419px">
+                                                <option value="HST">Bệnh viện, trung tâm y tế</option>
+                                                <option value="ntro">Nhà trọ</option>
+                                                <option value="trhoc">Trường học</option>
+                                                <option value="BOOK">Nhà sách</option>
+                                                <option value="ATM">ATM - Ngân hàng</option>
+                                                <option value="MARKET">Chợ</option>
+                                                <option value="POST">Bưu điện</option>
+                                                <option value="ADM">Hành chính</option>
+                                                <option value="PARK">Công viên</option>
+                                            </select>
+                                        </td>
+
+                                        <td class="tkgian" style="width: 13.4%">
+                                            <label class="medium mb-1" for=""><b>Bán kính (m) <i class="fas fa-bullseye icon_motel"></i> : </b></label>
+                                        </td>
+                                        <td class="tkgian">
+                                            <input class="form-control py-3" placeholder="Ví dụ: 500" id="txtBanKinhXQ" name="txtBanKinhXQ" type="number" required />
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <table class="tables table-borderless">
+                                    <tr>
+                                        <td class="tkgian" style="width: 13.4%">
+                                            <input id="chkLonLat" type="checkbox" />
+                                            <label class="medium mb-1" for=""><b>Chọn tọa độ <i class="fas fa-bullseye icon_motel"></i> : </b></label>
+                                        </td>
+
+                                        <td class="tkgian">
+                                            <label class="medium mb-1" for=""><b>Lon: </b></label>
+                                        </td>
+                                        <td class="tkgian">
+                                            <input class="form-control py-3" placeholder="Ví dụ: 109.123456" id="txtLon" name="txtLon" type="text" />
+                                        </td>
+
+                                        <td class="tkgian">
+                                            <label class="medium mb-1" for=""><b>Lat: </b></label>
+                                        </td>
+                                        <td class="tkgian">
+                                            <input class="form-control py-3" placeholder="Ví dụ: 12.123456" id="txtLat" name="txtLat" type="text" />
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <div class="form-row">
+                                    <div class="col-md-2">
+                                        <div class="form-group mb-1">
+                                            <button type="button" id="btxquanh" style="width: 152px" onclick="tkxquanh();" class="btn btn-primary btn-block">Tìm kiếm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-12" id="kq_xquanh">
+                            <!-- <div class="timkiemnc">
+                                <div class="scrollbar2" id="style-2">
+                                    <div class="force-overflow2" id="kq_tknangcao">
+                                        Kết quả tìm kiếm
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab4" class="contentProductTabs">
                     <div class="subProductTabs">
                         <div class="col-md-12">
                             <div class="tab-content">
