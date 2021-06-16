@@ -582,11 +582,7 @@
 
                         <div class="col-md-12" id="kq_xquanh">
                             <!-- <div class="timkiemnc">
-                                <div class="scrollbar2" id="style-2">
-                                    <div class="force-overflow2" id="kq_tknangcao">
                                         Kết quả tìm kiếm
-                                    </div>
-                                </div>
                             </div> -->
                         </div>
                     </div>
