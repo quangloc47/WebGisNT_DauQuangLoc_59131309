@@ -276,6 +276,8 @@
                     <button class="tabsLinks tabs" onclick="openTab(event, 'tab3')">TÌM KIẾM XUNG QUANH</button>
 
                     <button class="tabsLinks tabs" onclick="openTab(event, 'tab4')">TÌM KIẾM KẾT HỢP</button>
+
+                    <button class="btn btn-danger" onclick="delete_result()">XÓA KẾT QUẢ</button>
                 </div>
 
                 <div id="tab1" class="contentProductTabs">
@@ -403,7 +405,7 @@
                     <div class="subProductTabs">
                         <div class="col-md-12">
                             <form action="" method="post" style="margin-top: 20px;">
-                                <legend>Đi tới Phường/Xã:</legend>
+                                <legend>Tìm kiếm Nhà trọ thuộc Phường/Xã hoặc gần Đối Tượng:</legend>
 
                                 <table class="tables table-borderless">
                                     <tr>
@@ -574,6 +576,7 @@
                             </form>
                         </div>
 
+                        </br>
                         <div class="col-md-12" id="kq_xquanh">
                             <!-- <div class="timkiemnc">
                                         Kết quả tìm kiếm
@@ -616,7 +619,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

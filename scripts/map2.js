@@ -467,7 +467,6 @@ function query() {
 // Delete All
 function clear_all() {
     // Tìm kiếm kết hợp
-    $('#table').empty();
     if (geojson) { geojson.getSource().clear(); map.removeLayer(geojson); }
     if (featureOverlay) { featureOverlay.getSource().clear(); map.removeLayer(featureOverlay); }
     // End Tìm kiếm kết hợp
@@ -510,6 +509,15 @@ function clear_all() {
     // End Tìm kiếm thuộc tính, cơ bản
 }
 // End Delete All
+
+// Xóa kết quả tìm kiếm
+function delete_result() {
+    $("#kq_tknangcao").empty();
+    $("#kq_tkgian").empty();
+    $("#kq_xquanh").empty();
+    $('#table').empty();
+}
+// End Xóa kết quả tìm kiếm
 
 // Đi tới khu vực
 function zoomPanbbox(a, b, c, d) {

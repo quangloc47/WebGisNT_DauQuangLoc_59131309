@@ -607,17 +607,18 @@ label {
 
 .tabsLinks {
   display: inline-block;
-  margin: 0 50px 0 0;
+  margin: 0 42px 0 0;
   font-size: 16px;
   text-transform: uppercase;
   color: #7fc5ac;
   letter-spacing: 2px;
-  line-height: 30px;
+  line-height: 36px;
   border: none;
   outline: none;
   outline: unset;
   padding: 0;
   background-color: transparent;
+  font-weight: 500;
 }
 
 .tabsLinks:hover {
