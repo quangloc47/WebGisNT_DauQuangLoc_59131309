@@ -489,12 +489,6 @@
                                 <div class="form-row">
                                     <div class="col-md-2">
                                         <div class="form-group mb-1">
-                                            <button type="button" style="width: 152px" onclick="object_add();" class="btn btn-success btn-block">Thêm đối tượng</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group mb-1">
                                             <button type="button" style="width: 152px" onclick="tkgian();" class="btn btn-primary btn-block">Tìm kiếm</button>
                                         </div>
                                     </div>
