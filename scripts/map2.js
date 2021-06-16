@@ -1326,8 +1326,8 @@ $("#document").ready(function () {
             });
     
             map.addLayer(vector_buffer);
-            vector_buffer = vector_buffer.getSource().getExtent();
-            map.getView().fit(vector_buffer, { size: map.getSize(), maxZoom: 16, duration: 800 });
+            vector_buffer2 = vector_buffer.getSource().getExtent();
+            map.getView().fit(vector_buffer2, { size: map.getSize(), maxZoom: 16, duration: 800 });
         }, 2000);
     });
     // End Lấy tọa độ tìm kiếm xung quanh
