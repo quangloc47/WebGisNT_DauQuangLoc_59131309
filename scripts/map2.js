@@ -1310,6 +1310,7 @@ $("#document").ready(function () {
     var wkt;
 
     $("#btxquanh").on('click', function () {
+        if (vector_buffer) { vector_buffer.getSource().clear(); }
         setTimeout(function(){ 
             wkt = document.getElementById("geometry").value; 
             var format = new ol.format.WKT();
@@ -1328,7 +1329,7 @@ $("#document").ready(function () {
             map.addLayer(vector_buffer);
             vector_buffer2 = vector_buffer.getSource().getExtent();
             map.getView().fit(vector_buffer2, { size: map.getSize(), maxZoom: 16, duration: 800 });
-        }, 2000);
+        }, 1000);
     });
     // End Lấy tọa độ tìm kiếm xung quanh
 
