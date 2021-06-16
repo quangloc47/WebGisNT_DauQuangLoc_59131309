@@ -523,6 +523,7 @@ function zoomPanbbox(a, b, c, d) {
 
 // Zoom tới khu vực
 function zoom2bbox(a, b, c, d) {
+    if (vector_zoom2bbox) { vector_zoom2bbox.getSource().clear(); }
     var ext_zoom2bbox = [a, b, c, d];
 
     ext_zoom2bbox = ol.extent.applyTransform(ext_zoom2bbox, ol.proj.getTransform("EPSG:4326", "EPSG:4326"));
