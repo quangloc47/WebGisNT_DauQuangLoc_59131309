@@ -171,11 +171,10 @@ if ((isset($_GET['nvs'])) && (is_string($_GET['nvs']))) { // Form submission.
 }
 // End Nhà vệ sinh
 
-//Nhúng file kết nối với database
+// Nhúng file kết nối với database
 include('ketnoi.php');
 
-//Lấy dữ liệu từ file tknangcao.php
-
+// Lấy dữ liệu từ file tknangcao.php
 $sql = "SELECT hoten, public.user.sdt, CONCAT(sonha,' ',tenduong,', ',tenpx) as address, tentn, tenlnt, dientich, songuoio, nhavesinh, giaphong, tiencoc, tiendien, tiennuoc, giogiac, slphongtro,
                         ST_X(ST_Centroid(nhatro.geom)) AS lon, ST_Y(ST_Centroid(nhatro.geom)) AS lat, 
                         REPLACE(REPLACE(REPLACE('' || box2d(nhatro.geom),'BOX(',''),')',''),' ',',') AS bbox 
