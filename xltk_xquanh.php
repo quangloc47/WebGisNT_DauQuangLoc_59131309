@@ -70,12 +70,14 @@ if ($lon && $lat) {
             while ($row2 = pg_fetch_array($query_kv, NULL, PGSQL_ASSOC)) {
                 $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
                 echo '<tr bgcolor="' . $bg . '">
-                                <td style="text-align: center"><b>' . $i . '</b></td>
+                                <td class="number" style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
                                 <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                    <input style="display: none" type="text" id="longitude['.$i.']" name="longitude['.$i.']" value="' . $row2['lon'] . '" />
+                                    <input style="display: none" type="text" id="latitude['.$i.']" name="latitude['.$i.']" value="' . $row2['lat'] . '" />
                                 </td>
                             </tr>';
                 $i++;
@@ -118,12 +120,14 @@ if ($lon && $lat) {
             while ($row2 = pg_fetch_array($query_kv, NULL, PGSQL_ASSOC)) {
                 $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
                 echo '<tr bgcolor="' . $bg . '">
-                                <td style="text-align: center"><b>' . $i . '</b></td>
+                                <td class="number" style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentr'] . '</td>
                                 <td>' . $row2['address'] . '</td>
                                 <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                    <input style="display: none" type="text" id="longitude['.$i.']" name="longitude['.$i.']" value="' . $row2['lon'] . '" />
+                                    <input style="display: none" type="text" id="latitude['.$i.']" name="latitude['.$i.']" value="' . $row2['lat'] . '" />
                                 </td>
                             </tr>';
                 $i++;
@@ -176,7 +180,7 @@ if ($lon && $lat) {
             while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
                 $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
                 echo '<tr bgcolor="' . $bg . '">
-                                    <td style="text-align: center"><b>' . $i . '</b></td>
+                                    <td class="number" style="text-align: center"><b>' . $i . '</b></td>
                                     <td>' . $row2['hoten'] . '</td>
                                     <td>' . $row2['address'] . '</td>
                                     <td>' . $row2['sdt'] . '</td>
@@ -200,6 +204,8 @@ if ($lon && $lat) {
                                     <td style="text-align: center">
                                         <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                         <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                        <input style="display: none" type="text" id="longitude['.$i.']" name="longitude['.$i.']" value="' . $row2['lon'] . '" />
+                                        <input style="display: none" type="text" id="latitude['.$i.']" name="latitude['.$i.']" value="' . $row2['lat'] . '" />
                                     </td>
                                 </tr>';
                 $i++;
@@ -242,12 +248,14 @@ if ($lon && $lat) {
             while ($row2 = pg_fetch_array($query_kv, NULL, PGSQL_ASSOC)) {
                 $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
                 echo '<tr bgcolor="' . $bg . '">
-                                <td style="text-align: center"><b>' . $i . '</b></td>
+                                <td class="number" style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
                                 <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                    <input style="display: none" type="text" id="longitude['.$i.']" name="longitude['.$i.']" value="' . $row2['lon'] . '" />
+                                    <input style="display: none" type="text" id="latitude['.$i.']" name="latitude['.$i.']" value="' . $row2['lat'] . '" />
                                 </td>
                             </tr>';
                 $i++;
@@ -290,12 +298,14 @@ if ($lon && $lat) {
             while ($row2 = pg_fetch_array($query_kv, NULL, PGSQL_ASSOC)) {
                 $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
                 echo '<tr bgcolor="' . $bg . '">
-                                <td style="text-align: center"><b>' . $i . '</b></td>
+                                <td class="number" style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
                                 <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                    <input style="display: none" type="text" id="longitude['.$i.']" name="longitude['.$i.']" value="' . $row2['lon'] . '" />
+                                    <input style="display: none" type="text" id="latitude['.$i.']" name="latitude['.$i.']" value="' . $row2['lat'] . '" />
                                 </td>
                             </tr>';
                 $i++;
@@ -338,12 +348,14 @@ if ($lon && $lat) {
             while ($row2 = pg_fetch_array($query_kv, NULL, PGSQL_ASSOC)) {
                 $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
                 echo '<tr bgcolor="' . $bg . '">
-                                <td style="text-align: center"><b>' . $i . '</b></td>
+                                <td class="number" style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
                                 <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                    <input style="display: none" type="text" id="longitude['.$i.']" name="longitude['.$i.']" value="' . $row2['lon'] . '" />
+                                    <input style="display: none" type="text" id="latitude['.$i.']" name="latitude['.$i.']" value="' . $row2['lat'] . '" />
                                 </td>
                             </tr>';
                 $i++;
@@ -386,12 +398,14 @@ if ($lon && $lat) {
             while ($row2 = pg_fetch_array($query_kv, NULL, PGSQL_ASSOC)) {
                 $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
                 echo '<tr bgcolor="' . $bg . '">
-                                <td style="text-align: center"><b>' . $i . '</b></td>
+                                <td class="number" style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
                                 <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                    <input style="display: none" type="text" id="longitude['.$i.']" name="longitude['.$i.']" value="' . $row2['lon'] . '" />
+                                    <input style="display: none" type="text" id="latitude['.$i.']" name="latitude['.$i.']" value="' . $row2['lat'] . '" />
                                 </td>
                             </tr>';
                 $i++;
@@ -434,12 +448,14 @@ if ($lon && $lat) {
             while ($row2 = pg_fetch_array($query_kv, NULL, PGSQL_ASSOC)) {
                 $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
                 echo '<tr bgcolor="' . $bg . '">
-                                <td style="text-align: center"><b>' . $i . '</b></td>
+                                <td class="number" style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
                                 <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                    <input style="display: none" type="text" id="longitude['.$i.']" name="longitude['.$i.']" value="' . $row2['lon'] . '" />
+                                    <input style="display: none" type="text" id="latitude['.$i.']" name="latitude['.$i.']" value="' . $row2['lat'] . '" />
                                 </td>
                             </tr>';
                 $i++;
@@ -482,12 +498,14 @@ if ($lon && $lat) {
             while ($row2 = pg_fetch_array($query_kv, NULL, PGSQL_ASSOC)) {
                 $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
                 echo '<tr bgcolor="' . $bg . '">
-                                <td style="text-align: center"><b>' . $i . '</b></td>
+                                <td class="number" style="text-align: center"><b>' . $i . '</b></td>
                                 <td>' . $row2['tentienich'] . '</td>
                                 <td>' . $row2['sonha'] . '</td>
                                 <td style="text-align: center">
                                     <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                     <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                    <input style="display: none" type="text" id="longitude['.$i.']" name="longitude['.$i.']" value="' . $row2['lon'] . '" />
+                                    <input style="display: none" type="text" id="latitude['.$i.']" name="latitude['.$i.']" value="' . $row2['lat'] . '" />
                                 </td>
                             </tr>';
                 $i++;

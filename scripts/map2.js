@@ -4,6 +4,7 @@ var draw, vector_measure, helpTooltip, measureTooltipElement;
 var overlay, closer;
 var vector_zoom2bbox, vector_addmarker;
 var Point, vectorLayer_LonLat, vector_buffer;
+var vector_stylemarker;
 
 // Query panel using WMS & WFS service
 // wms_layers_window
@@ -518,6 +519,8 @@ function delete_result() {
     $("#txtLat").val(null);
 
     $('#table').empty();
+
+    history.go(0);
 }
 // End Xóa kết quả tìm kiếm
 
@@ -1318,28 +1321,56 @@ $("#document").ready(function () {
         }
     });
 
-    var wkt;
+    var wkt, lon, lat;
 
     $("#btxquanh").on('click', function () {
         if (vector_buffer) { vector_buffer.getSource().clear(); }
-        setTimeout(function(){ 
-            wkt = document.getElementById("geometry").value; 
+        setTimeout(function () {
+            wkt = document.getElementById("geometry").value;
             var format = new ol.format.WKT();
 
             var feature = format.readFeature(wkt, {
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:4326',
             });
-    
+
             vector_buffer = new ol.layer.Vector({
                 source: new ol.source.Vector({
                     features: [feature],
                 }),
             });
-    
+
             map.addLayer(vector_buffer);
             vector_buffer2 = vector_buffer.getSource().getExtent();
             map.getView().fit(vector_buffer2, { size: map.getSize(), maxZoom: 16, duration: 800 });
+        }, 2000);
+
+        setTimeout(function () {
+            var elem = document.getElementsByClassName("number");
+            var i;
+
+            for (i = 1; i <= elem.length; i++) {
+                lon = document.getElementById("longitude[" + i + "]").value;
+                lat = document.getElementById("latitude[" + i + "]").value;
+
+                vector_stylemarker = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        features: [new ol.Feature({
+                            geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lon), parseFloat(lat)], "EPSG:4326", "EPSG:4326")),
+                        })]
+                    }),
+                    style: new ol.style.Style({
+                        image: new ol.style.Icon({
+                            anchor: [0.5, 0.4],
+                            anchorXUnits: "fraction",
+                            anchorYUnits: "fraction",
+                            src: "images/circle2.png"
+                        }),
+                    })
+                });
+
+                map.addLayer(vector_stylemarker);
+            }
         }, 2000);
     });
     // End Lấy tọa độ tìm kiếm xung quanh
