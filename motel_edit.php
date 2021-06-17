@@ -199,7 +199,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="medium mb-1 motel" for="inputPhoneNumber"><b>Số điện thoại <i class="fas fa-phone-square-alt icon_motel"></i><font color="red">*</font></b></label>
-                                        <input class="form-control py-3" name="txtPhone" type="tel" placeholder="0123456789..." value="<?php echo $row[9] ?>" pattern="^[0-9]{10,11}$" maxlength="11" required title="Vui lòng nhập đúng số điện thoại." />
+                                        <input class="form-control py-3" name="txtPhone" type="number" placeholder="0123456789..." value="<?php echo $row[9] ?>" pattern="^[0-9]{10,11}$" maxlength="11" required title="Vui lòng nhập đúng số điện thoại." />
                                     </div>
                                 </div>
                             </div>

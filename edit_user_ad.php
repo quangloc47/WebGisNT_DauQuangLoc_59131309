@@ -173,7 +173,7 @@
           <tr>
             <td><b>Số điện thoại: <font color="red">*</font></b></td>
             <td>
-                <input class="form-control" type="text" name="sdt" size= "50" 
+                <input class="form-control" type="number" name="sdt" size= "50" 
                 value="' . $row[2] . '" />
             </td>
           </tr>
