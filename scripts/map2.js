@@ -494,8 +494,6 @@ function clear_all() {
     // Lấy tọa độ tìm kiếm xung quanh
     if (vectorLayer_LonLat) {
         Point.setGeometry(null);
-        $("#txtLon").val(null);
-        $("#txtLat").val(null);
     }
     if (vector_buffer) { vector_buffer.getSource().clear(); }
     // End Lấy tọa độ tìm kiếm xung quanh
@@ -514,7 +512,11 @@ function clear_all() {
 function delete_result() {
     $("#kq_tknangcao").empty();
     $("#kq_tkgian").empty();
+
     $("#kq_xquanh").empty();
+    $("#txtLon").val(null);
+    $("#txtLat").val(null);
+
     $('#table').empty();
 }
 // End Xóa kết quả tìm kiếm
@@ -1338,7 +1340,7 @@ $("#document").ready(function () {
             map.addLayer(vector_buffer);
             vector_buffer2 = vector_buffer.getSource().getExtent();
             map.getView().fit(vector_buffer2, { size: map.getSize(), maxZoom: 16, duration: 800 });
-        }, 1000);
+        }, 2000);
     });
     // End Lấy tọa độ tìm kiếm xung quanh
 
