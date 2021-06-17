@@ -491,7 +491,7 @@
                                 <div class="form-row">
                                     <div class="col-md-2">
                                         <div class="form-group mb-1">
-                                            <button type="button" style="width: 152px" onclick="tkgian();" class="btn btn-primary btn-block">Tìm kiếm</button>
+                                            <button id="btkgian" type="button" style="width: 152px" onclick="tkgian();" class="btn btn-primary btn-block">Tìm kiếm</button>
                                         </div>
                                     </div>
                                 </div>

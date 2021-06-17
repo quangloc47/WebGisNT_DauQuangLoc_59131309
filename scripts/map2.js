@@ -4,7 +4,7 @@ var draw, vector_measure, helpTooltip, measureTooltipElement;
 var overlay, closer;
 var vector_zoom2bbox, vector_addmarker;
 var Point, vectorLayer_LonLat, vector_buffer;
-var vector_stylemarker;
+var vector_stylemarker, vector_kgianmarker;
 
 // Query panel using WMS & WFS service
 // wms_layers_window
@@ -1291,6 +1291,40 @@ $("#document").ready(function () {
     });
     // End Show the user's location
 
+    // Highlight tìm kiếm không gian
+    $("#btkgian").on('click', function () {
+        var lon, lat;
+
+        setTimeout(function () {
+            var elem = document.getElementsByClassName("number_kgian");
+            var i;
+
+            for (i = 1; i <= elem.length; i++) {
+                lon = document.getElementById("long_kgian[" + i + "]").value;
+                lat = document.getElementById("lat_kgian[" + i + "]").value;
+
+                vector_kgianmarker = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        features: [new ol.Feature({
+                            geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lon), parseFloat(lat)], "EPSG:4326", "EPSG:4326")),
+                        })]
+                    }),
+                    style: new ol.style.Style({
+                        image: new ol.style.Icon({
+                            anchor: [0.5, 0.4],
+                            anchorXUnits: "fraction",
+                            anchorYUnits: "fraction",
+                            src: "images/circle2.png"
+                        }),
+                    })
+                });
+
+                map.addLayer(vector_kgianmarker);
+            }
+        }, 2000);
+    });
+    // End Highlight tìm kiếm không gian
+
     // Lấy tọa độ tìm kiếm xung quanh
     Point = new ol.Feature();
 
@@ -1321,9 +1355,10 @@ $("#document").ready(function () {
         }
     });
 
-    var wkt, lon, lat;
-
     $("#btxquanh").on('click', function () {
+        var wkt, lon, lat;
+
+        // Vẽ bán kính
         if (vector_buffer) { vector_buffer.getSource().clear(); }
         setTimeout(function () {
             wkt = document.getElementById("geometry").value;
@@ -1345,6 +1380,7 @@ $("#document").ready(function () {
             map.getView().fit(vector_buffer2, { size: map.getSize(), maxZoom: 16, duration: 800 });
         }, 2000);
 
+        // Highlight đối tượng tìm được
         setTimeout(function () {
             var elem = document.getElementsByClassName("number");
             var i;

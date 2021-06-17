@@ -69,7 +69,7 @@ if ($xp == null && $lchon == 'trhoc') {
         while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
             $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
             echo '<tr bgcolor="' . $bg . '">
-                                    <td style="text-align: center"><b>' . $i . '</b></td>
+                                    <td class="number_kgian" style="text-align: center"><b>' . $i . '</b></td>
                                     <td>' . $row2['hoten'] . '</td>
                                     <td>' . $row2['address'] . '</td>
                                     <td>' . $row2['sdt'] . '</td>
@@ -93,6 +93,8 @@ if ($xp == null && $lchon == 'trhoc') {
                                     <td style="text-align: center">
                                         <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                         <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                        <input style="display: none" type="text" id="long_kgian['.$i.']" name="long_kgian['.$i.']" value="' . $row2['lon'] . '" />
+                                        <input style="display: none" type="text" id="lat_kgian['.$i.']" name="lat_kgian['.$i.']" value="' . $row2['lat'] . '" />
                                     </td>
                                 </tr>';
             $i++;
@@ -146,7 +148,7 @@ if ($xp == null && $lchon == 'trhoc') {
         while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
             $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
             echo '<tr bgcolor="' . $bg . '">
-                                    <td style="text-align: center"><b>' . $i . '</b></td>
+                                    <td class="number_kgian" style="text-align: center"><b>' . $i . '</b></td>
                                     <td>' . $row2['hoten'] . '</td>
                                     <td>' . $row2['address'] . '</td>
                                     <td>' . $row2['sdt'] . '</td>
@@ -170,6 +172,8 @@ if ($xp == null && $lchon == 'trhoc') {
                                     <td style="text-align: center">
                                         <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                         <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                        <input style="display: none" type="text" id="long_kgian['.$i.']" name="long_kgian['.$i.']" value="' . $row2['lon'] . '" />
+                                        <input style="display: none" type="text" id="lat_kgian['.$i.']" name="lat_kgian['.$i.']" value="' . $row2['lat'] . '" />
                                     </td>
                                 </tr>';
             $i++;
@@ -223,7 +227,7 @@ if ($xp == null && $lchon == 'trhoc') {
         while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
             $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
             echo '<tr bgcolor="' . $bg . '">
-                                    <td style="text-align: center"><b>' . $i . '</b></td>
+                                    <td class="number_kgian" style="text-align: center"><b>' . $i . '</b></td>
                                     <td>' . $row2['hoten'] . '</td>
                                     <td>' . $row2['address'] . '</td>
                                     <td>' . $row2['sdt'] . '</td>
@@ -247,6 +251,8 @@ if ($xp == null && $lchon == 'trhoc') {
                                     <td style="text-align: center">
                                         <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                         <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                        <input style="display: none" type="text" id="long_kgian['.$i.']" name="long_kgian['.$i.']" value="' . $row2['lon'] . '" />
+                                        <input style="display: none" type="text" id="lat_kgian['.$i.']" name="lat_kgian['.$i.']" value="' . $row2['lat'] . '" />
                                     </td>
                                 </tr>';
             $i++;
@@ -300,7 +306,7 @@ if ($xp == null && $lchon == 'trhoc') {
         while ($row2 = pg_fetch_array($query, NULL, PGSQL_ASSOC)) {
             $bg = ($bg == '#eeeeee' ? '#ffffff' : '#eeeeee');
             echo '<tr bgcolor="' . $bg . '">
-                                    <td style="text-align: center"><b>' . $i . '</b></td>
+                                    <td class="number_kgian" style="text-align: center"><b>' . $i . '</b></td>
                                     <td>' . $row2['hoten'] . '</td>
                                     <td>' . $row2['address'] . '</td>
                                     <td>' . $row2['sdt'] . '</td>
@@ -324,6 +330,8 @@ if ($xp == null && $lchon == 'trhoc') {
                                     <td style="text-align: center">
                                         <button class="zoom" type="button" onclick="addmarker(' . $row2['lon'] . ',' . $row2['lat'] . ');">Zoom</button>
                                         <button class="zoom2" id="zoom2" type="button" onclick="zoom2bbox(' . $row2['bbox2'] . ');">Bbox</button>
+                                        <input style="display: none" type="text" id="long_kgian['.$i.']" name="long_kgian['.$i.']" value="' . $row2['lon'] . '" />
+                                        <input style="display: none" type="text" id="lat_kgian['.$i.']" name="lat_kgian['.$i.']" value="' . $row2['lat'] . '" />
                                     </td>
                                 </tr>';
             $i++;
