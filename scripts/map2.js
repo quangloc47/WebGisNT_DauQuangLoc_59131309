@@ -190,7 +190,7 @@ function tkgian() {
         }
     }
     xmlhttp.open("GET", "xltk_kgian.php?xp=" + xaphuong + "&lchon=" + txtKG + "&bkinh=" + txtBK + "&tentr=" + txtTR 
-        + "&tduong=" + txtTenDuong + "&lphong=" + txtLPhong + "&phuongxa=" + txtPhuongXa 
+        + "&tduong=" + txtTenDuong + "&lphong=" + txtLPhong 
         + "&dtich=" + txtDienTich + "&gphong=" + txtGPhong + "&slnguoi=" + txtSLNguoi 
         + "&gdien=" + txtGDien + "&gnuoc=" + txtGNuoc + "&ggiac=" + txtGioGiac + "&nvs=" + txtNVS, true);
     xmlhttp.send();
@@ -230,7 +230,7 @@ function tkxquanh() {
         }
     }
     xmlhttp.open("GET", "xltk_xquanh.php?kv=" + txtXQ + "&bkinh=" + txtBanKinhXQ + "&lon=" + txtLon + "&lat=" + txtLat
-        + "&tduong=" + txtTenDuong + "&lphong=" + txtLPhong + "&phuongxa=" + txtPhuongXa 
+        + "&tduong=" + txtTenDuong + "&lphong=" + txtLPhong 
         + "&dtich=" + txtDienTich + "&gphong=" + txtGPhong + "&slnguoi=" + txtSLNguoi 
         + "&gdien=" + txtGDien + "&gnuoc=" + txtGNuoc + "&ggiac=" + txtGioGiac + "&nvs=" + txtNVS, true);
     xmlhttp.send();
