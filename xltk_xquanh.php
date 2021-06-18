@@ -44,7 +44,7 @@ if ($lon && $lat) {
                         REPLACE(REPLACE(REPLACE('' || box2d(xaphuong.geom),'BOX(',''),')',''),' ',',') AS bbox2 
                         FROM public.tienich ti
                             INNER JOIN public.xaphuong ON ti.maphuongxa = public.xaphuong.mapx
-                        WHERE ST_DWithin(ti.geom, ST_MakePoint($lon, $lat)::geography, $bkinh)
+                        WHERE ST_DWithin(ti.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)
                             AND ti.maloaiti = '$kv'";
         $query_kv = pg_query($conn, $sql_kv);
 
@@ -96,7 +96,7 @@ if ($lon && $lat) {
                         FROM public.truong
                             INNER JOIN public.duong ON public.truong.maduong = public.duong.maduong
                             INNER JOIN public.xaphuong ON public.truong.mapx = public.xaphuong.mapx
-                        WHERE ST_DWithin(public.truong.geom, ST_MakePoint($lon, $lat)::geography, $bkinh)";
+                        WHERE ST_DWithin(public.truong.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)";
         $query_kv = pg_query($conn, $sql_kv);
         $i = 1;
         $rows_kv = pg_num_rows($query_kv);
@@ -150,7 +150,7 @@ if ($lon && $lat) {
                             INNER JOIN public.tiennghi ON public.nhatro.matn = public.tiennghi.matn 
                             INNER JOIN public.loainhatro ON public.nhatro.malnt = public.loainhatro.malnt 
                             INNER JOIN public.xaphuong ON public.nhatro.maphuongxa = public.xaphuong.mapx
-                        WHERE ST_DWithin(public.nhatro.geom, ST_MakePoint($lon, $lat)::geography, $bkinh)";
+                        WHERE ST_DWithin(public.nhatro.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)";
         $query = pg_query($conn, $sql);
         $i = 1;
         $rows = pg_num_rows($query);
@@ -223,7 +223,7 @@ if ($lon && $lat) {
                         REPLACE(REPLACE(REPLACE('' || box2d(xaphuong.geom),'BOX(',''),')',''),' ',',') AS bbox2 
                         FROM public.tienich
                             INNER JOIN public.xaphuong ON public.tienich.maphuongxa = public.xaphuong.mapx
-                        WHERE ST_DWithin(public.tienich.geom, ST_MakePoint($lon, $lat)::geography, $bkinh)
+                        WHERE ST_DWithin(public.tienich.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)
                             AND maloaiti = '$kv'";
         $query_kv = pg_query($conn, $sql_kv);
         $i = 1;
@@ -273,7 +273,7 @@ if ($lon && $lat) {
                         REPLACE(REPLACE(REPLACE('' || box2d(xaphuong.geom),'BOX(',''),')',''),' ',',') AS bbox2 
                         FROM public.tienich
                             INNER JOIN public.xaphuong ON public.tienich.maphuongxa = public.xaphuong.mapx
-                        WHERE ST_DWithin(public.tienich.geom, ST_MakePoint($lon, $lat)::geography, $bkinh)
+                        WHERE ST_DWithin(public.tienich.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)
                             AND maloaiti = '$kv'";
         $query_kv = pg_query($conn, $sql_kv);
         $i = 1;
@@ -323,7 +323,7 @@ if ($lon && $lat) {
                         REPLACE(REPLACE(REPLACE('' || box2d(xaphuong.geom),'BOX(',''),')',''),' ',',') AS bbox2 
                         FROM public.tienich
                             INNER JOIN public.xaphuong ON public.tienich.maphuongxa = public.xaphuong.mapx
-                        WHERE ST_DWithin(public.tienich.geom, ST_MakePoint($lon, $lat)::geography, $bkinh)
+                        WHERE ST_DWithin(public.tienich.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)
                             AND maloaiti = '$kv'";
         $query_kv = pg_query($conn, $sql_kv);
         $i = 1;
@@ -373,7 +373,7 @@ if ($lon && $lat) {
                         REPLACE(REPLACE(REPLACE('' || box2d(xaphuong.geom),'BOX(',''),')',''),' ',',') AS bbox2 
                         FROM public.tienich
                             INNER JOIN public.xaphuong ON public.tienich.maphuongxa = public.xaphuong.mapx
-                        WHERE ST_DWithin(public.tienich.geom, ST_MakePoint($lon, $lat)::geography, $bkinh)
+                        WHERE ST_DWithin(public.tienich.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)
                             AND maloaiti = '$kv'";
         $query_kv = pg_query($conn, $sql_kv);
         $i = 1;
@@ -423,7 +423,7 @@ if ($lon && $lat) {
                         REPLACE(REPLACE(REPLACE('' || box2d(xaphuong.geom),'BOX(',''),')',''),' ',',') AS bbox2 
                         FROM public.tienich
                             INNER JOIN public.xaphuong ON public.tienich.maphuongxa = public.xaphuong.mapx
-                        WHERE ST_DWithin(public.tienich.geom, ST_MakePoint($lon, $lat)::geography, $bkinh)
+                        WHERE ST_DWithin(public.tienich.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)
                             AND maloaiti = '$kv'";
         $query_kv = pg_query($conn, $sql_kv);
         $i = 1;
@@ -473,7 +473,7 @@ if ($lon && $lat) {
                         REPLACE(REPLACE(REPLACE('' || box2d(xaphuong.geom),'BOX(',''),')',''),' ',',') AS bbox2 
                         FROM public.tienich
                             INNER JOIN public.xaphuong ON public.tienich.maphuongxa = public.xaphuong.mapx
-                        WHERE ST_DWithin(public.tienich.geom, ST_MakePoint($lon, $lat)::geography, $bkinh)
+                        WHERE ST_DWithin(public.tienich.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)
                             AND maloaiti = '$kv'";
         $query_kv = pg_query($conn, $sql_kv);
         $i = 1;

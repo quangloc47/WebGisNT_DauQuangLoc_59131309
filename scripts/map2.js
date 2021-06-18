@@ -634,6 +634,16 @@ function tkgian() {
         txtTR = null;
     }
 
+    var txtTenDuong = document.getElementById("txtTenDuongKG").value;
+    var txtLPhong = document.getElementById("txtLPhongKG").value;
+    var txtDienTich = document.getElementById("txtDienTichKG").value;
+    var txtGPhong = document.getElementById("txtGPhongKG").value;
+    var txtSLNguoi = document.getElementById("txtSLNguoiKG").value;
+    var txtGDien = document.getElementById("txtGDienKG").value;
+    var txtGNuoc = document.getElementById("txtGNuocKG").value;
+    var txtGioGiac = document.getElementById("txtGioGiacKG").value;
+    var txtNVS = document.getElementById("txtNVSKG").value;
+
     if (window.XMLHttpRequest) {
         // Code for IE7+, Firefox, Chrome, Opera, Safari 
         xmlhttp = new XMLHttpRequest();
@@ -647,7 +657,10 @@ function tkgian() {
             document.getElementById("kq_tkgian").innerHTML = xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET", "xltk_kgian.php?xp=" + xaphuong + "&lchon=" + txtKG + "&bkinh=" + txtBK + "&tentr=" + txtTR, true);
+    xmlhttp.open("GET", "xltk_kgian.php?xp=" + xaphuong + "&lchon=" + txtKG + "&bkinh=" + txtBK + "&tentr=" + txtTR 
+        + "&tduong=" + txtTenDuong + "&lphong=" + txtLPhong + "&phuongxa=" + txtPhuongXa 
+        + "&dtich=" + txtDienTich + "&gphong=" + txtGPhong + "&slnguoi=" + txtSLNguoi 
+        + "&gdien=" + txtGDien + "&gnuoc=" + txtGNuoc + "&ggiac=" + txtGioGiac + "&nvs=" + txtNVS, true);
     xmlhttp.send();
 }
 // End tìm kiếm không gian
