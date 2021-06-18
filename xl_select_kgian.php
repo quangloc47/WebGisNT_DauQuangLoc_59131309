@@ -8,7 +8,7 @@ include('ketnoi.php');
 
 // Lấy dữ liệu từ file tknangcao.php, index.php
 if ($select) {
-    echo '<p style="font-size: 13pt; padding: 0; text-align: justify">Sử dụng các toán tử <font color="red">= (bằng), > (lớn hơn), < (bé hơn),>= (lớn hơn hoặc bằng), <= (bé hơn hoặc bằng)</font>
+    echo '<p style="font-size: 13pt; padding: 0; text-align: justify">Sử dụng các toán tử <font color="red">= (bằng), > (lớn hơn), < (bé hơn), >= (lớn hơn hoặc bằng), <= (bé hơn hoặc bằng)</font>
             để thực hiện tìm kiếm với một số thuộc tính, các thuộc tính không muốn xét có thể bỏ trống! <b>Lưu ý:</b> Các toán tử với thuộc tính muốn tìm ngăn cách nhau bởi dấu cách!</p>
             <div class="form-row">
             <div class="col-md-4">
