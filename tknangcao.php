@@ -275,8 +275,6 @@
 
                     <button class="tabsLinks tabs" onclick="openTab(event, 'tab3')">TÌM KIẾM XUNG QUANH</button>
 
-                    <button class="tabsLinks tabs" onclick="openTab(event, 'tab4')">TÌM KIẾM KẾT HỢP</button>
-
                     <button class="btn btn-danger" onclick="delete_result()">XÓA KẾT QUẢ</button>
                 </div>
 
@@ -377,7 +375,7 @@
                                 <div class="form-row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-1">
-                                            <button type="button" name="submit" onclick="tknangcao();" class="btn btn-primary btn-block">Tìm kiếm</button>
+                                            <button type="button" name="submit" onclick="tknangcao();" class="btn btn-success btn-block">Tìm kiếm</button>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -515,7 +513,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -550,7 +548,7 @@
                                             <input class="form-control py-3" placeholder="Ví dụ: < 5000" id="txtGDienKG" name="txtGDienKG" type="text" />
                                         </div>
                                     </div>
-                            
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="medium mb-1" for=""><b>Giá nước/m3:</b></label>
@@ -569,7 +567,12 @@
                                 <div class="form-row">
                                     <div class="col-md-2">
                                         <div class="form-group mb-1">
-                                            <button id="btkgian" type="button" style="width: 152px" onclick="tkgian();" class="btn btn-primary btn-block">Tìm kiếm</button>
+                                            <button id="btkgian" type="button" style="width: 152px" onclick="tkgian();" class="btn btn-success btn-block">Tìm kiếm</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group mb-1">
+                                            <button type="reset" name="submit" class="btn btn-primary btn-block">Làm mới</button>
                                         </div>
                                     </div>
                                 </div>
@@ -644,10 +647,43 @@
                                     </tr>
                                 </table>
 
+                                <div id="kq_select_kgian">
+                                    <!-- <div class="timkiemnc">
+                                        Thêm điều kiện tìm kiếm thuộc tính đối với nhà trọ
+                                    </div> -->
+                                </div>
+
+                                <script type="text/javascript">
+                                    $("#txtXQ").change(function() {
+                                        $(document).ready(function selectkgian() {
+                                            var select_kgian = document.getElementById("txtXQ").value;
+
+                                            if (select_kgian == 'ntro') {
+                                                if (window.XMLHttpRequest) {
+                                                    // Code for IE7+, Firefox, Chrome, Opera, Safari 
+                                                    xmlhttp = new XMLHttpRequest();
+                                                } else {
+                                                    // Code for IE6, IE5
+                                                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                                                }
+                                                xmlhttp.onreadystatechange = function() {
+                                                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                                        document.getElementById("kq_select_kgian").innerHTML = xmlhttp.responseText;
+                                                    }
+                                                }
+                                                xmlhttp.open("GET", "xl_select_kgian.php?select=" + select_kgian, true);
+                                                xmlhttp.send();
+                                            } else {
+                                                $("#kq_select_kgian").empty();
+                                            }
+                                        });
+                                    });
+                                </script>
+
                                 <div class="form-row">
                                     <div class="col-md-2">
                                         <div class="form-group mb-1">
-                                            <button type="button" id="btxquanh" style="width: 152px" onclick="tkxquanh();" class="btn btn-primary btn-block">Tìm kiếm</button>
+                                            <button type="button" id="btxquanh" style="width: 152px" onclick="tkxquanh();" class="btn btn-success btn-block">Tìm kiếm</button>
                                         </div>
                                     </div>
                                 </div>
@@ -659,41 +695,6 @@
                             <!-- <div class="timkiemnc">
                                         Kết quả tìm kiếm
                             </div> -->
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab4" class="contentProductTabs">
-                    <div class="subProductTabs">
-                        <div class="col-md-12">
-                            <div class="tab-content">
-                                <div id="form">
-                                    <label for="layer" class="medium mb-1"><b>Lựa chọn Layer:</b></label>
-                                    <select class="form-control" id="layer" name="layer">
-                                        <option value="">Chọn Layer</option>
-                                    </select>
-                                    <br>
-                                    <label for="attributes" class="medium mb-1"><b>Lựa chọn thuộc tính:</b></label>
-                                    <select class="form-control" id="attributes" name="attributes">
-                                        <option value="">Chọn thuộc tính</option>
-                                    </select>
-                                    <br>
-                                    <label for="operator" class="medium mb-1"><b>Lựa chọn toán tử:</b></label>
-                                    <select class="form-control" id="operator" name="operator">
-                                        <option value="">Chọn toán tử</option>
-                                    </select>
-                                    <br>
-
-                                    <label for="value" class="medium mb-1"><b>Nhập giá trị:</b></label>
-                                    <input type="text" class="form-control" id="value" name="value">
-                                    <br>
-                                    <button class="btn btn-success" onclick="query()">Chạy Truy Vấn</button>
-                                </div>
-                            </div>
-                            <div id="table_data"> </div>
-                            <div id="wms_layers_window" title="Available WMS Layers" style="display:none"></div>
-                            <table id="table_wms_layers" class="table-bordered">
-                            </table>
                         </div>
                     </div>
                 </div>

@@ -1,477 +1,12 @@
 var map;
-var geojson, layer_name, layerSwitcher, featureOverlay, highlightStyle;
 var draw, vector_measure, helpTooltip, measureTooltipElement;
 var overlay, closer;
 var vector_zoom2bbox, vector_addmarker;
 var Point, vectorLayer_LonLat, vector_buffer;
 var vector_stylemarker, vector_kgianmarker;
 
-// Query panel using WMS & WFS service
-// wms_layers_window
-function wms_layers() {
-    $(function () {
-        $("#wms_layers_window").dialog({
-            height: 400,
-            width: 800,
-            modal: true
-        });
-        $("#wms_layers_window").show();
-    });
-
-    $(document).ready(function () {
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:8080/geoserver/wms?request=getCapabilities",
-            dataType: "xml",
-            success: function (xml) {
-                $('#table_wms_layers').empty();
-                console.log("here");
-                $('<tr></tr>').html('<th>Name</th><th>Title</th><th>Abstract</th>').appendTo('#table_wms_layers');
-                $(xml).find('Layer').find('Layer').each(function () {
-                    var name = $(this).children('Name').text();
-                    var title = $(this).children('Title').text();
-                    var abst = $(this).children('Abstract').text();
-                    $('<tr></tr>').html('<td>' + name + '</td><td>' + title + '</td><td>' + abst + '</td>').appendTo('#table_wms_layers');
-                });
-                addRowHandlers();
-            }
-        });
-    });
-
-    var divContainer = document.getElementById("wms_layers_window");
-    var table1 = document.getElementById("table_wms_layers");
-    divContainer.innerHTML = "";
-    divContainer.appendChild(table1);
-    $("#wms_layers_window").show();
-
-    var add_map_btn = document.createElement("BUTTON");
-    add_map_btn.setAttribute("id", "add_map_btn");
-    add_map_btn.innerHTML = "Add Layer to Map";
-    add_map_btn.setAttribute("onclick", "add_layer()");
-    divContainer.appendChild(add_map_btn);
-
-    function addRowHandlers() {
-        var rows = document.getElementById("table_wms_layers").rows;
-        var table = document.getElementById('table_wms_layers');
-        var heads = table.getElementsByTagName('th');
-        var col_no;
-        for (var i = 0; i < heads.length; i++) {
-            // Đi từng ô
-            var head = heads[i];
-            if (head.innerHTML == 'Name') {
-                col_no = i + 1;
-            }
-        }
-        for (i = 0; i < rows.length; i++) {
-            rows[i].onclick = function () {
-                return function () {
-                    $(function () {
-                        $("#table_wms_layers td").each(function () {
-                            $(this).parent("tr").css("background-color", "white");
-                        });
-                    });
-                    var cell = this.cells[col_no - 1];
-                    layer_name = cell.innerHTML;
-                    $(document).ready(function () {
-                        $("#table_wms_layers td:nth-child(" + col_no + ")").each(function () {
-                            if ($(this).text() == layer_name) {
-                                $(this).parent("tr").css("background-color", "grey");
-                            }
-                        });
-                    });
-                };
-            }(rows[i]);
-        }
-    }
-}
-
-function add_layer() {
-    var name = layer_name.split(":");
-
-    var layer_wms = new ol.layer.Image({
-        title: name[1],
-        source: new ol.source.ImageWMS({
-            url: 'http://localhost:8080/geoserver/wms',
-            params: { 'LAYERS': layer_name },
-            ratio: 1,
-            serverType: 'geoserver'
-        })
-    });
-    overlays.getLayers().push(layer_wms);
-
-    var url = 'http://localhost:8080/geoserver/wms?request=getCapabilities';
-    var parser = new ol.format.WMSCapabilities();
-
-    $.ajax(url).then(function (response) {
-        var result = parser.read(response);
-        var Layers = result.Capability.Layer.Layer;
-        var extent;
-        for (var i = 0, len = Layers.length; i < len; i++) {
-            var layerobj = Layers[i];
-            if (layerobj.Name == layer_name) {
-                extent = layerobj.BoundingBox[0].extent;
-                map.getView().fit(
-                    extent,
-                    { maxZoom: 16, duration: 1590, size: map.getSize() }
-                );
-
-            }
-        }
-    });
-
-    layerSwitcher.renderPanel();
-    legend();
-}
-
-// layers_name
-$(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/geoserver/wfs?request=getCapabilities",
-        dataType: "xml",
-        success: function (xml) {
-            var select = $('#layer');
-            $(xml).find('FeatureType').each(function () {
-                var name = $(this).find('Name').text();
-                $(this).find('Name').each(function () {
-                    var value = $(this).text();
-                    select.append("<option class='ddindent' value='" + value + "'>" + value + "</option>");
-                });
-            });
-        }
-    });
-});
-
-// attributes_dropdown
-$(function () {
-    $("#layer").change(function () {
-        var attributes = document.getElementById("attributes");
-        var length = attributes.options.length;
-        for (i = length - 1; i >= 0; i--) {
-            attributes.options[i] = null;
-        }
-
-        var value_layer = $(this).val();
-
-        attributes.options[0] = new Option('Chọn thuộc tính', "");
-
-        $(document).ready(function () {
-            $.ajax({
-                type: "GET",
-                url: "http://localhost:8080/geoserver/wfs?service=WFS&request=DescribeFeatureType&version=1.1.0&typeName=" + value_layer,
-                dataType: "xml",
-                success: function (xml) {
-                    var select = $('#attributes');
-                    $(xml).find('xsd\\:sequence').each(function () {
-                        $(this).find('xsd\\:element').each(function () {
-                            var value = $(this).attr('name');
-                            var type = $(this).attr('type');
-                            if (value != 'geom' && value != 'the_geom') {
-                                select.append("<option class='ddindent' value='" + type + "'>" + value + "</option>");
-                            }
-                        });
-                    });
-                }
-            });
-        });
-    });
-});
-
-// operator combo
-$(function () {
-    $("#attributes").change(function () {
-        var operator = document.getElementById("operator");
-        var length = operator.options.length;
-        for (i = length - 1; i >= 0; i--) {
-            operator.options[i] = null;
-        }
-
-        var value_type = $(this).val();
-
-        var value_attribute = $('#attributes option:selected').text();
-        operator.options[0] = new Option('Chọn toán tử', "");
-
-        if (value_type == 'xsd:short' || value_type == 'xsd:int' || value_type == 'xsd:double') {
-            var operator1 = document.getElementById("operator");
-            operator1.options[1] = new Option('Lớn hơn', '>');
-            operator1.options[2] = new Option('Nhỏ hơn', '<');
-            operator1.options[3] = new Option('Bằng', '=');
-        }
-        else if (value_type == 'xsd:string') {
-            var operator1 = document.getElementById("operator");
-            operator1.options[1] = new Option('Like', 'ILike');
-        }
-    });
-});
-
-var highlightStyle = new ol.style.Style({
-    fill: new ol.style.Fill({
-        color: 'rgba(255, 255, 255, 0.4)',
-    }),
-    stroke: new ol.style.Stroke({
-        color: '#3399CC',
-        width: 3,
-    }),
-    image: new ol.style.Circle({
-        radius: 10,
-        fill: new ol.style.Fill({
-            color: '#3399CC'
-        })
-    })
-});
-
-featureOverlay = new ol.layer.Vector({
-    source: new ol.source.Vector(),
-    map: map,
-    style: highlightStyle
-});
-
-function findRowNumber(cn1, v1) {
-    var table = document.querySelector('#table');
-    var rows = table.querySelectorAll("tr");
-    var msg = "No such row exist"
-    for (i = 1; i < rows.length; i++) {
-        var tableData = rows[i].querySelectorAll("td");
-        if (tableData[cn1 - 1].textContent == v1) {
-            msg = i;
-            break;
-        }
-    }
-    return msg;
-}
-
-function addRowHandlers() {
-    var rows = document.getElementById("table").rows;
-    var heads = table.getElementsByTagName('th');
-    var col_no;
-    for (var i = 0; i < heads.length; i++) {
-        // Đi từng ô
-        var head = heads[i];
-        if (head.innerHTML == 'id') {
-            col_no = i + 1;
-        }
-    }
-    for (i = 0; i < rows.length; i++) {
-        rows[i].onclick = function () {
-            return function () {
-                featureOverlay.getSource().clear();
-
-                $(function () {
-                    $("#table td").each(function () {
-                        $(this).parent("tr").css("background-color", "white");
-                    });
-                });
-                var cell = this.cells[col_no - 1];
-                var id = cell.innerHTML;
-
-
-                $(document).ready(function () {
-                    $("#table td:nth-child(" + col_no + ")").each(function () {
-                        if ($(this).text() == id) {
-                            $(this).parent("tr").css("background-color", "grey");
-                        }
-                    });
-                });
-
-                var features = geojson.getSource().getFeatures();
-
-                for (i = 0; i < features.length; i++) {
-                    if (features[i].getId() == id) {
-                        featureOverlay.getSource().addFeature(features[i]);
-
-                        featureOverlay.getSource().on('addfeature', function () {
-                            map.getView().fit(
-                                featureOverlay.getSource().getExtent(),
-                                { maxZoom: 16, duration: 1590, size: map.getSize() }
-                            );
-                        });
-                    }
-                }
-            };
-        }(rows[i]);
-    }
-}
-
-function highlight(evt) {
-    featureOverlay.getSource().clear();
-    var feature = map.forEachFeatureAtPixel(evt.pixel,
-        function (feature, layer) {
-            return feature;
-        });
-
-    if (feature) {
-        var geometry = feature.getGeometry();
-        var coord = geometry.getCoordinates();
-        var coordinate = evt.coordinate;
-
-        $(function () {
-            $("#table td").each(function () {
-                $(this).parent("tr").css("background-color", "white");
-            });
-        });
-
-        featureOverlay.getSource().addFeature(feature);
-    }
-
-    var table = document.getElementById('table');
-    var cells = table.getElementsByTagName('td');
-    var rows = document.getElementById("table").rows;
-    var heads = table.getElementsByTagName('th');
-    var col_no;
-    for (var i = 0; i < heads.length; i++) {
-        // Đi từng ô
-        var head = heads[i];
-        if (head.innerHTML == 'id') {
-            col_no = i + 1;
-        }
-    }
-    var row_no = findRowNumber(col_no, feature.getId());
-
-    var rows = document.querySelectorAll('#table tr');
-
-    rows[row_no].scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-    });
-
-    $(document).ready(function () {
-        $("#table td:nth-child(" + col_no + ")").each(function () {
-            if ($(this).text() == feature.getId()) {
-                $(this).parent("tr").css("background-color", "grey");
-
-            }
-        });
-    });
-};
-
-function query() {
-    $('#table').empty();
-    if (geojson) {
-        map.removeLayer(geojson);
-    }
-
-    if (featureOverlay) {
-        featureOverlay.getSource().clear();
-        map.removeLayer(featureOverlay);
-    }
-
-    var layer = document.getElementById("layer");
-    var value_layer = layer.options[layer.selectedIndex].value;
-
-    var attribute = document.getElementById("attributes");
-    var value_attribute = attribute.options[attribute.selectedIndex].text;
-
-    var operator = document.getElementById("operator");
-    var value_operator = operator.options[operator.selectedIndex].value;
-
-    var txt = document.getElementById("value");
-    var value_txt = txt.value;
-
-    if (value_operator == 'ILike') {
-        value_txt = "" + value_txt + "%25";
-    }
-    else {
-        value_txt = value_txt;
-    }
-
-    var url = "http://localhost:8080/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" + value_layer + "&CQL_FILTER=" + value_attribute + "+" + value_operator + "+'" + value_txt + "'&outputFormat=application/json"
-
-    var style = new ol.style.Style({
-        fill: new ol.style.Fill({
-            color: 'rgba(255, 255, 255, 0.4)'
-        }),
-        stroke: new ol.style.Stroke({
-            color: '#ffcc33',
-            width: 3
-        }),
-        image: new ol.style.Circle({
-            radius: 7,
-            fill: new ol.style.Fill({
-                color: '#ffcc33'
-            })
-        })
-    });
-
-    geojson = new ol.layer.Vector({
-        source: new ol.source.Vector({
-            url: url,
-            format: new ol.format.GeoJSON()
-        }),
-        style: style,
-    });
-
-    geojson.getSource().on('addfeature', function () {
-        map.getView().fit(
-            geojson.getSource().getExtent(),
-            { maxZoom: 16, duration: 1590, size: map.getSize() }
-        );
-    });
-
-    map.addLayer(geojson);
-
-    $.getJSON(url, function (data) {
-        var col = [];
-        col.push('id');
-        for (var i = 0; i < data.features.length; i++) {
-            for (var key in data.features[i].properties) {
-                if (col.indexOf(key) === -1) {
-                    col.push(key);
-                }
-            }
-        }
-
-        var table = document.createElement("table");
-
-        table.setAttribute("class", "table table-bordered");
-        table.setAttribute("id", "table");
-        // TẠO ROW TRÊN ĐẦU BẢNG HTML SỬ DỤNG CÁC ĐẦU TRÍCH DẪN Ở TRÊN.
-
-        var tr = table.insertRow(-1);                   // TABLE ROW.
-
-        for (var i = 0; i < col.length; i++) {
-            var th = document.createElement("th");      // TABLE HEADER.
-            th.innerHTML = col[i];
-            tr.appendChild(th);
-        }
-
-        // THÊM DỮ LIỆU JSON VÀO BẢNG NHƯ ROWS.
-        for (var i = 0; i < data.features.length; i++) {
-
-            tr = table.insertRow(-1);
-
-            for (var j = 0; j < col.length; j++) {
-                var tabCell = tr.insertCell(-1);
-                if (j == 0) { tabCell.innerHTML = data.features[i]['id']; }
-                else {
-                    tabCell.innerHTML = data.features[i].properties[col[j]];
-                }
-            }
-        }
-
-        // CUỐI CÙNG THÊM BẢNG ĐƯỢC TẠO MỚI NHẤT VỚI DỮ LIỆU JSON VÀO MỘT CONTAINER.
-        var divContainer = document.getElementById("table_data");
-        divContainer.innerHTML = "";
-        divContainer.appendChild(table);
-        addRowHandlers();
-
-        document.getElementById('map').style.height = '100%';
-        document.getElementById('table_data').style.height = '500px';
-        map.updateSize();
-    });
-
-    map.on('click', highlight);
-
-    addRowHandlers();
-}
-// End Query panel using WMS & WFS service
-
 // Delete All
 function clear_all() {
-    // Tìm kiếm kết hợp
-    if (geojson) { geojson.getSource().clear(); map.removeLayer(geojson); }
-    if (featureOverlay) { featureOverlay.getSource().clear(); map.removeLayer(featureOverlay); }
-    // End Tìm kiếm kết hợp
-
     // Đo lường
     map.removeInteraction(draw);
     if (vector_measure) { vector_measure.getSource().clear(); }
@@ -488,7 +23,6 @@ function clear_all() {
     // Lấy thông tin
     overlay.setPosition(undefined);
     closer.blur();
-    map.un('click', highlight);
     $("#info").empty();
     // End Lấy thông tin
 
@@ -517,8 +51,6 @@ function delete_result() {
     $("#kq_xquanh").empty();
     $("#txtLon").val(null);
     $("#txtLat").val(null);
-
-    $('#table').empty();
 
     history.go(0);
 }
@@ -672,6 +204,18 @@ function tkxquanh() {
     var txtLon = document.getElementById("txtLon").value;
     var txtLat = document.getElementById("txtLat").value;
 
+    if (txtXQ == 'ntro') {
+        var txtTenDuong = document.getElementById("txtTenDuongXQ").value;
+        var txtLPhong = document.getElementById("txtLPhongXQ").value;
+        var txtDienTich = document.getElementById("txtDienTichXQ").value;
+        var txtGPhong = document.getElementById("txtGPhongXQ").value;
+        var txtSLNguoi = document.getElementById("txtSLNguoiXQ").value;
+        var txtGDien = document.getElementById("txtGDienXQ").value;
+        var txtGNuoc = document.getElementById("txtGNuocXQ").value;
+        var txtGioGiac = document.getElementById("txtGioGiacXQ").value;
+        var txtNVS = document.getElementById("txtNVSXQ").value;
+    }
+
     if (window.XMLHttpRequest) {
         // Code for IE7+, Firefox, Chrome, Opera, Safari 
         xmlhttp = new XMLHttpRequest();
@@ -685,7 +229,10 @@ function tkxquanh() {
             document.getElementById("kq_xquanh").innerHTML = xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET", "xltk_xquanh.php?kv=" + txtXQ + "&bkinh=" + txtBanKinhXQ + "&lon=" + txtLon + "&lat=" + txtLat, true);
+    xmlhttp.open("GET", "xltk_xquanh.php?kv=" + txtXQ + "&bkinh=" + txtBanKinhXQ + "&lon=" + txtLon + "&lat=" + txtLat
+        + "&tduong=" + txtTenDuong + "&lphong=" + txtLPhong + "&phuongxa=" + txtPhuongXa 
+        + "&dtich=" + txtDienTich + "&gphong=" + txtGPhong + "&slnguoi=" + txtSLNguoi 
+        + "&gdien=" + txtGDien + "&gnuoc=" + txtGNuoc + "&ggiac=" + txtGioGiac + "&nvs=" + txtNVS, true);
     xmlhttp.send();
 }
 // End tìm kiếm xung quanh
@@ -786,6 +333,7 @@ $("#document").ready(function () {
 
     // Định nghĩa các lớp layers
     var TramBus = new ol.layer.Image({
+        minZoom: 12,
         source: new ol.source.ImageWMS({
             ratio: 1,
             url: 'http://localhost:8080/geoserver/NhaTroNT/wms',
@@ -805,6 +353,7 @@ $("#document").ready(function () {
     });
 
     var Truong = new ol.layer.Image({
+        minZoom: 12,
         source: new ol.source.ImageWMS({
             ratio: 1,
             url: 'http://localhost:8080/geoserver/NhaTroNT/wms',
@@ -843,6 +392,7 @@ $("#document").ready(function () {
     });
 
     var NhaTro = new ol.layer.Image({
+        minZoom: 11,
         source: new ol.source.ImageWMS({
             ratio: 1,
             url: 'http://localhost:8080/geoserver/NhaTroNT/wms',
@@ -862,6 +412,7 @@ $("#document").ready(function () {
     });
 
     var Duong = new ol.layer.Image({
+        minZoom: 11,
         source: new ol.source.ImageWMS({
             ratio: 1,
             url: 'http://localhost:8080/geoserver/NhaTroNT/wms',
@@ -881,6 +432,7 @@ $("#document").ready(function () {
     });
 
     var XaPhuong = new ol.layer.Image({
+        minZoom: 10,
         source: new ol.source.ImageWMS({
             ratio: 1,
             url: 'http://localhost:8080/geoserver/NhaTroNT/wms',
@@ -979,6 +531,8 @@ $("#document").ready(function () {
             projection: projection,
             center: [0, 0],
             zoom: 2,
+            maxZoom: 23,
+            minZoom: 7,
         })
     });
     // End Chồng các lớp layers vào Map

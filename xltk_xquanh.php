@@ -27,6 +27,168 @@ if ($lon == null || $lat == null) { // Không có ID hợp lệ, hủy tập l�
     echo '<p class="error">Vui lòng check Chọn tọa độ để thực hiện lấy tọa độ trên bản đồ hoặc nhập vào tọa độ mong muốn !</p>';
 }
 
+// Tên đường
+if ((isset($_GET['tduong'])) && (is_string($_GET['tduong']))) { // From tknangcao.php
+    $tduong = $_GET['tduong'];
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Tên đường
+
+// Loại nhà trọ
+if ((isset($_GET['lphong'])) && (is_string($_GET['lphong']))) { // From tknangcao.php
+    $lphong = $_GET['lphong'];
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Loại nhà trọ
+
+// Diện tích
+if ((isset($_GET['dtich'])) && (is_string($_GET['dtich']))) { // From tknangcao.php
+    $dtich = $_GET['dtich'];
+    $dtich_id = strtok($dtich, " ");
+    $dtich_sub = substr($dtich, strpos($dtich, ' ') + strlen(' '));
+
+    if (empty($dtich)) {
+        $dtich_sql = " ";
+    } else {
+        if ('=' == $dtich_id || '>' == $dtich_id || '<' == $dtich_id || '>=' == $dtich_id || '<=' == $dtich_id) {
+            $dtich_sql = "AND dientich $dtich_id '$dtich_sub'";
+        } else {
+            $dtich_sql = "AND dientich = '$dtich'";
+        }
+    }
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Diện tích
+
+// Giá phòng
+if ((isset($_GET['gphong'])) && (is_string($_GET['gphong']))) { // Form submission.
+    $gphong = $_GET['gphong'];
+    $gphong_id = strtok($gphong, " ");
+    $gphong_sub = substr($gphong, strpos($gphong, ' ') + strlen(' '));
+
+    if (empty($gphong)) {
+        $gphong_sql = " ";
+    } else {
+        if ('=' == $gphong_id || '>' == $gphong_id || '<' == $gphong_id || '>=' == $gphong_id || '<=' == $gphong_id) {
+            $gphong_sql = "AND giaphong $gphong_id '$gphong_sub'";
+        } else {
+            $gphong_sql = "AND giaphong = '$gphong'";
+        }
+    }
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Giá phòng
+
+// Số người ở
+if ((isset($_GET['slnguoi'])) && (is_string($_GET['slnguoi']))) { // Form submission.
+    $slnguoi = $_GET['slnguoi'];
+    $slnguoi_id = strtok($slnguoi, " ");
+    $slnguoi_sub = substr($slnguoi, strpos($slnguoi, ' ') + strlen(' '));
+
+    if (empty($slnguoi)) {
+        $slnguoi_sql = " ";
+    } else {
+        if ('=' == $slnguoi_id || '>' == $slnguoi_id || '<' == $slnguoi_id || '>=' == $slnguoi_id || '<=' == $slnguoi_id) {
+            $slnguoi_sql = "AND songuoio $slnguoi_id '$slnguoi_sub'";
+        } else {
+            $slnguoi_sql = "AND songuoio = '$slnguoi'";
+        }
+    }
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Số người ở
+
+// Tiền điện
+if ((isset($_GET['gdien'])) && (is_string($_GET['gdien']))) { // Form submission.
+    $gdien = $_GET['gdien'];
+    $gdien_id = strtok($gdien, " ");
+    $gdien_sub = substr($gdien, strpos($gdien, ' ') + strlen(' '));
+
+    if (empty($gdien)) {
+        $gdien_sql = " ";
+    } else {
+        if ('=' == $gdien_id || '>' == $gdien_id || '<' == $gdien_id || '>=' == $gdien_id || '<=' == $gdien_id) {
+            $gdien_sql = "AND tiendien $gdien_id '$gdien_sub'";
+        } else {
+            $gdien_sql = "AND tiendien = '$gdien'";
+        }
+    }
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Tiền điện
+
+// Tiền nước
+if ((isset($_GET['gnuoc'])) && (is_string($_GET['gnuoc']))) { // Form submission.
+    $gnuoc = $_GET['gnuoc'];
+    $gnuoc_id = strtok($gnuoc, " ");
+    $gnuoc_sub = substr($gnuoc, strpos($gnuoc, ' ') + strlen(' '));
+
+    if (empty($gnuoc)) {
+        $gnuoc_sql = " ";
+    } else {
+        if ('=' == $gnuoc_id || '>' == $gnuoc_id || '<' == $gnuoc_id || '>=' == $gnuoc_id || '<=' == $gnuoc_id) {
+            $gnuoc_sql = "AND tiennuoc $gnuoc_id '$gnuoc_sub'";
+        } else {
+            $gnuoc_sql = "AND tiennuoc = '$gnuoc'";
+        }
+    }
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Tiền nước
+
+// Giờ giấc
+if ((isset($_GET['ggiac'])) && (is_string($_GET['ggiac']))) { // Form submission.
+    $ggiac = $_GET['ggiac'];
+    $ggiac_id = strtok($ggiac, " ");
+    $ggiac_sub = substr($ggiac, strpos($ggiac, ' ') + strlen(' '));
+
+    if (empty($ggiac)) {
+        $ggiac_sql = " ";
+    } else {
+        if ('=' == $ggiac_id || '>' == $ggiac_id || '<' == $ggiac_id || '>=' == $ggiac_id || '<=' == $ggiac_id) {
+            $ggiac_sql = "AND giogiac $ggiac_id '$ggiac_sub'";
+        } else {
+            $ggiac_sql = "AND giogiac LIKE '%$ggiac%'";
+        }
+    }
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Giờ giấc
+
+// Nhà vệ sinh
+if ((isset($_GET['nvs'])) && (is_string($_GET['nvs']))) { // Form submission.
+    $nvs = $_GET['nvs'];
+} else { // Không có ID hợp lệ, hủy tập lệnh.
+    echo '<p class="error">Trang này lỗi không lấy được id người dùng!.</p>';
+    include('includes/footer.html');
+    exit();
+}
+// End Nhà vệ sinh
+
 // Nhúng file kết nối với database
 include('ketnoi.php');
 
@@ -150,7 +312,16 @@ if ($lon && $lat) {
                             INNER JOIN public.tiennghi ON public.nhatro.matn = public.tiennghi.matn 
                             INNER JOIN public.loainhatro ON public.nhatro.malnt = public.loainhatro.malnt 
                             INNER JOIN public.xaphuong ON public.nhatro.maphuongxa = public.xaphuong.mapx
-                        WHERE ST_DWithin(public.nhatro.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)";
+                        WHERE ST_DWithin(public.nhatro.geom::geography, ST_MakePoint($lon, $lat)::geography, $bkinh)
+                            AND tenduong ILIKE '%$tduong%'
+                            AND tenlnt ILIKE '%$lphong%'
+                            $dtich_sql
+                            $gphong_sql
+                            $slnguoi_sql
+                            $gdien_sql
+                            $gnuoc_sql
+                            $ggiac_sql
+                            AND nhavesinh ILIKE '%$nvs%';";
         $query = pg_query($conn, $sql);
         $i = 1;
         $rows = pg_num_rows($query);
