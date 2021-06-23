@@ -73,7 +73,7 @@
 
 	                <tr>
 	                    <td><b>Số điện thoại:</b></td>
-	                    <td>' . $row1['sdt'] . '</td>
+	                    <td>' . trim($row1['sdt']) . '</td>
 	                </tr>
 
 					<tr>
@@ -184,7 +184,7 @@
 			<td align="left">' . $row2['tentk'] . '</td>
 			<td align="left">' . $row2['hoten'] . '</td>
 			<td align="left">' . $row2['diachi'] . '</td>
-			<td align="left">' . $row2['sdt'] . '</td>
+			<td align="left">' . trim($row2['sdt']) . '</td>
 			<td align="left">' . $row2['gtinh'] . '</td>
 			<td align="left">' . $row2['tenltk'] . '</td>
 			<td style="text-align: center">';
